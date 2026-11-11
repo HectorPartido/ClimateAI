@@ -1,0 +1,36 @@
+2026-11-11 13:28:24 [INFO] ClimateAI, Entrega 3: entrenamiento y experimentación (random_state = 42)
+2026-11-11 13:28:24 [INFO] Versiones: python 3.12.10, numpy 2.5.4, pandas 3.1.1, scikit-learn 1.9.1, scikit-fuzzy 0.5.0, matplotlib 3.11.2
+2026-11-11 13:28:24 [INFO] Cargando datasets desde data/raw...
+2026-11-11 13:28:24 [INFO] Temperatura por país: 577,462 filas leídas, 197,599 descartadas (sin dato o incertidumbre > 1 °C)
+2026-11-11 13:28:24 [INFO] Emisiones de CO2: 29,384 filas leídas
+2026-11-11 13:28:24 [INFO] Emparejamiento: 203 entidades de Berkeley Earth con serie en Our World in Data
+2026-11-11 13:28:27 [INFO] Indicadores I1 a I6 para 201 países | Train: 160 | Test: 41 (random_state=42)
+2026-11-11 13:28:27 [SUCCESS] Indicadores y partición guardados en data/processed
+2026-11-11 13:28:27 [INFO] Entrenando agrupamiento (Exp 1 a 3)...
+2026-11-11 13:28:27 [INFO] Exp 1 (modelo base): K-means k=4 sobre los 6 indicadores en z-score...
+2026-11-11 13:28:27 [INFO] Exp 2 (candidato): z-score, PCA de 2 componentes y K-means k=4...
+2026-11-11 13:28:27 [INFO] Exp 3 (alternativo): mezcla gaussiana de 4 componentes sobre el mismo PCA...
+2026-11-11 13:28:29 [INFO] Exp 1: Baseline | Silueta Train: 0.318 | Silueta Test: 0.368 | Davies-Bouldin Test: 0.941 | Subajuste: los grupos no quedan bien separados (silueta en Train < 0.35)
+2026-11-11 13:28:29 [INFO] Exp 2: Candidato | Silueta Train: 0.407 | Silueta Test: 0.382 | Davies-Bouldin Test: 0.814 | Óptimo: cumple la meta y la separación se mantiene en Test
+2026-11-11 13:28:29 [INFO] Exp 3: Alternativo | Silueta Train: 0.329 | Silueta Test: 0.328 | Davies-Bouldin Test: 1.645 | Subajuste: los grupos no quedan bien separados (silueta en Train < 0.35)
+2026-11-11 13:28:29 [INFO] Líneas base (silueta en Train): partición aleatoria -0.061, cuartiles de I4 0.129
+2026-11-11 13:28:29 [INFO] Grupo 1, Grandes emisores con calentamiento bajo: 37 países (9 en Test)
+2026-11-11 13:28:29 [INFO] Grupo 2, Bajo impacto con calentamiento leve: 84 países (15 en Test)
+2026-11-11 13:28:29 [INFO] Grupo 3, Emisores históricos con calentamiento alto: 56 países (14 en Test)
+2026-11-11 13:28:29 [INFO] Grupo 4, Bajo impacto con calentamiento alto: 24 países (3 en Test)
+2026-11-11 13:28:29 [SUCCESS] Modelos guardados en models: scaler.joblib, pca.joblib, kmeans_k4.joblib, gmm_k4.joblib y grupos.json
+2026-11-11 13:28:29 [INFO] Ajustando los sistemas difusos con los percentiles de Train y evaluando en Test (Exp 4 a 6)...
+2026-11-11 13:29:20 [INFO] Exp 4: Baseline | Concordancia con experto: pendiente | F1 macro: pendiente | Línea base: sirve de referencia para Exp 5 y 6
+2026-11-11 13:29:20 [INFO] Exp 5: Alternativo | Concordancia con experto: pendiente | F1 macro: pendiente | Descartado: más riesgo puede bajar la prioridad (reglas que contradicen la malla)
+2026-11-11 13:29:20 [INFO] Exp 6: Candidato | Concordancia con experto: pendiente | F1 macro: pendiente | Coherente; concordancia con el experto pendiente
+2026-11-11 13:29:20 [INFO] Exp 5 adaptacion: cobertura 1000 combinaciones (fuerza dominante mínima 0.54, 0 no concluyentes) | coherencia 65 retrocesos en 5043 pasos (9 bajan de nivel) | acuerdo con Exp 4 73 %
+2026-11-11 13:29:20 [INFO] Exp 5 mitigacion: cobertura 1000 combinaciones (fuerza dominante mínima 0.54, 0 no concluyentes) | coherencia 28 retrocesos en 5043 pasos (4 bajan de nivel) | acuerdo con Exp 4 83 %
+2026-11-11 13:29:20 [INFO] Exp 6 adaptacion: cobertura 1000 combinaciones (fuerza dominante mínima 0.54, 0 no concluyentes) | coherencia 0 retrocesos en 5043 pasos (0 bajan de nivel) | acuerdo con Exp 4 68 %
+2026-11-11 13:29:20 [INFO] Exp 6 mitigacion: cobertura 1000 combinaciones (fuerza dominante mínima 0.54, 0 no concluyentes) | coherencia 9 retrocesos en 5043 pasos (0 bajan de nivel) | acuerdo con Exp 4 83 %
+2026-11-11 13:29:20 [WARNING] Sin niveles del experto en data/expert/niveles_experto.csv: concordancia y F1 quedan pendientes
+2026-11-11 13:29:20 [SUCCESS] Sistemas difusos guardados en models/difuso.json
+2026-11-11 13:29:20 [SUCCESS] Matriz de experimentación guardada en reports/experimentos.csv
+2026-11-11 13:29:20 [INFO] Probando predecir() con los 201 países y los 2 sistemas...
+2026-11-11 13:29:22 [INFO] predecir(): 402 llamadas, 0 no concluyentes, tiempo promedio 4.90 ms (máximo 9.08 ms; meta <= 1000 ms)
+2026-11-11 13:29:22 [SUCCESS] Niveles de los 201 países guardados en reports/niveles_pais.csv
+2026-11-11 13:29:22 [SUCCESS] Entrenamiento terminado en 58.3 s. Figuras en reports/figuras y registro en logs/entrenamiento.log

@@ -1,0 +1,619 @@
+{
+  "semilla": 42,
+  "versiones": {
+    "python": "3.12.10",
+    "numpy": "2.5.4",
+    "pandas": "3.1.1",
+    "scikit-learn": "1.9.1",
+    "scikit-fuzzy": "0.5.0",
+    "matplotlib": "3.11.2"
+  },
+  "paises": 201,
+  "train": 160,
+  "test": 41,
+  "experimentos": [
+    {
+      "experimento": "Exp 1: Baseline",
+      "modelo": "K-means (6 indicadores)",
+      "hiperparametros": "k = 4, n_init = 10, distancia euclidiana",
+      "metrica_principal": "Silueta Test: 0.368",
+      "metrica_secundaria": "Davies-Bouldin Test: 0.941",
+      "metrica_train": "Silueta Train: 0.318",
+      "tiempo": "0.170 s / 0.76 ms",
+      "diagnostico": "Subajuste: los grupos no quedan bien separados (silueta en Train < 0.35)",
+      "silueta_train": 0.318,
+      "silueta_test": 0.368,
+      "davies_bouldin_test": 0.941,
+      "ari_estabilidad": 0.958,
+      "tiempo_entrenamiento_s": 0.1696,
+      "tiempo_inferencia_ms": 0.763
+    },
+    {
+      "experimento": "Exp 2: Candidato",
+      "modelo": "PCA + K-means",
+      "hiperparametros": "PCA 2 componentes (76.5 % de varianza), k = 4, n_init = 10",
+      "metrica_principal": "Silueta Test: 0.382",
+      "metrica_secundaria": "Davies-Bouldin Test: 0.814",
+      "metrica_train": "Silueta Train: 0.407",
+      "tiempo": "0.045 s / 1.36 ms",
+      "diagnostico": "Óptimo: cumple la meta y la separación se mantiene en Test",
+      "silueta_train": 0.407,
+      "silueta_test": 0.382,
+      "davies_bouldin_test": 0.814,
+      "ari_estabilidad": 0.822,
+      "tiempo_entrenamiento_s": 0.0449,
+      "tiempo_inferencia_ms": 1.359
+    },
+    {
+      "experimento": "Exp 3: Alternativo",
+      "modelo": "PCA + mezcla gaussiana (GMM)",
+      "hiperparametros": "4 componentes, covarianza completa, n_init = 10",
+      "metrica_principal": "Silueta Test: 0.328",
+      "metrica_secundaria": "Davies-Bouldin Test: 1.645",
+      "metrica_train": "Silueta Train: 0.329",
+      "tiempo": "0.167 s / 0.38 ms",
+      "diagnostico": "Subajuste: los grupos no quedan bien separados (silueta en Train < 0.35)",
+      "silueta_train": 0.329,
+      "silueta_test": 0.328,
+      "davies_bouldin_test": 1.645,
+      "ari_estabilidad": 1.0,
+      "tiempo_entrenamiento_s": 0.1671,
+      "tiempo_inferencia_ms": 0.383
+    },
+    {
+      "experimento": "Exp 4: Baseline",
+      "modelo": "Regla de cuartiles (1 indicador)",
+      "hiperparametros": "Adaptación por I1, mitigación por I5; cortes P25, P50 y P75 de Train",
+      "metrica_principal": "Concordancia con experto: pendiente",
+      "metrica_secundaria": "F1 macro: pendiente",
+      "metrica_train": "No aplica: no se entrena, solo se calculan percentiles de Train",
+      "tiempo": "< 0.01 s / 0.11 ms por país",
+      "diagnostico": "Línea base: sirve de referencia para Exp 5 y 6",
+      "verificaciones": "Acuerdo de referencia; la explicación usa 1 solo indicador (no cumple el CA6); no detecta casos no concluyentes",
+      "tiempo_entrenamiento_s": 0.0,
+      "tiempo_inferencia_ms": 0.111
+    },
+    {
+      "experimento": "Exp 5: Alternativo",
+      "modelo": "Lógica difusa Mamdani, reglas versión 1",
+      "hiperparametros": "15 reglas por sistema (malla 3 x 3 + 6 ajustes); P20, P50 y P80 de Train; mínimo, máximo y centroide",
+      "metrica_principal": "Concordancia con experto: pendiente",
+      "metrica_secundaria": "F1 macro: pendiente",
+      "metrica_train": "No aplica: no se entrena, solo se calculan percentiles de Train",
+      "tiempo": "< 0.01 s / 2.00 ms por país",
+      "diagnostico": "Descartado: más riesgo puede bajar la prioridad (reglas que contradicen la malla)",
+      "verificaciones": "Cobertura: fuerza dominante mínima 0.54 en 2,000 combinaciones; coherencia: 93 retrocesos en 10,086 pasos (13 bajan de nivel, peor 5.1 puntos); explicación con 2 indicadores: 82/82; acuerdo con Exp 4: Ada. 73%, Mit. 83%",
+      "tiempo_entrenamiento_s": 0.0,
+      "tiempo_inferencia_ms": 1.999
+    },
+    {
+      "experimento": "Exp 6: Candidato",
+      "modelo": "Lógica difusa Mamdani, reglas versión 2",
+      "hiperparametros": "12 reglas por sistema (malla 3 x 2 con el término no alto + 6 ajustes); mismas funciones y operadores",
+      "metrica_principal": "Concordancia con experto: pendiente",
+      "metrica_secundaria": "F1 macro: pendiente",
+      "metrica_train": "No aplica: no se entrena, solo se calculan percentiles de Train",
+      "tiempo": "< 0.01 s / 1.92 ms por país",
+      "diagnostico": "Coherente; concordancia con el experto pendiente",
+      "verificaciones": "Cobertura: fuerza dominante mínima 0.54 en 2,000 combinaciones; coherencia: 9 retrocesos en 10,086 pasos (0 bajan de nivel, peor 1.1 puntos); explicación con 2 indicadores: 82/82; acuerdo con Exp 4: Ada. 68%, Mit. 83%",
+      "tiempo_entrenamiento_s": 0.0,
+      "tiempo_inferencia_ms": 1.92
+    }
+  ],
+  "lineas_base_agrupamiento": {
+    "aleatoria": -0.061,
+    "cuartiles_I4": 0.129
+  },
+  "grupos": {
+    "etiqueta_a_grupo": {
+      "0": 1,
+      "1": 2,
+      "2": 3,
+      "3": 4
+    },
+    "grupos": {
+      "1": {
+        "nombre": "Grandes emisores con calentamiento bajo",
+        "n": 37,
+        "n_train": 28,
+        "n_test": 9,
+        "centroide": {
+          "I1": 0.1536,
+          "I2": 0.5088,
+          "I3": 0.2973,
+          "I4": 3.3681,
+          "I5": 0.2766,
+          "I6": 25.9404
+        }
+      },
+      "2": {
+        "nombre": "Bajo impacto con calentamiento leve",
+        "n": 84,
+        "n_train": 69,
+        "n_test": 15,
+        "centroide": {
+          "I1": 0.1808,
+          "I2": 0.6097,
+          "I3": 0.267,
+          "I4": 0.0334,
+          "I5": 0.0046,
+          "I6": 59.8936
+        }
+      },
+      "3": {
+        "nombre": "Emisores históricos con calentamiento alto",
+        "n": 56,
+        "n_train": 42,
+        "n_test": 14,
+        "centroide": {
+          "I1": 0.3369,
+          "I2": 1.0451,
+          "I3": 0.5773,
+          "I4": 4.4992,
+          "I5": 0.2735,
+          "I6": 18.248
+        }
+      },
+      "4": {
+        "nombre": "Bajo impacto con calentamiento alto",
+        "n": 24,
+        "n_train": 21,
+        "n_test": 3,
+        "centroide": {
+          "I1": 0.2983,
+          "I2": 0.9499,
+          "I3": 0.4574,
+          "I4": 0.083,
+          "I5": 0.0091,
+          "I6": 49.5907
+        }
+      }
+    },
+    "pca_varianza": [
+      0.5234,
+      0.2421
+    ],
+    "pca_cargas": {
+      "I1": [
+        0.459,
+        -0.411
+      ],
+      "I2": [
+        0.447,
+        -0.443
+      ],
+      "I3": [
+        0.457,
+        -0.193
+      ],
+      "I4": [
+        0.428,
+        0.521
+      ],
+      "I5": [
+        0.401,
+        0.541
+      ],
+      "I6": [
+        -0.191,
+        -0.182
+      ]
+    }
+  },
+  "difuso": {
+    "verificaciones": {
+      "Exp 4": {
+        "explicacion_2_indicadores": 0
+      },
+      "Exp 5": {
+        "cobertura": {
+          "adaptacion": {
+            "combinaciones": 1000,
+            "fuerza_dominante_minima": 0.536,
+            "no_concluyentes": 0
+          },
+          "mitigacion": {
+            "combinaciones": 1000,
+            "fuerza_dominante_minima": 0.543,
+            "no_concluyentes": 0
+          }
+        },
+        "coherencia": {
+          "adaptacion": {
+            "pasos": 5043,
+            "retrocesos": 65,
+            "bajadas_de_nivel": 9,
+            "peor_caso": {
+              "retroceso": 5.1,
+              "pais": "Jordan",
+              "indicador": "I4",
+              "valor": 0.233
+            }
+          },
+          "mitigacion": {
+            "pasos": 5043,
+            "retrocesos": 28,
+            "bajadas_de_nivel": 4,
+            "peor_caso": {
+              "retroceso": 4.5,
+              "pais": "Guyana",
+              "indicador": "I4",
+              "valor": 0.233
+            }
+          }
+        },
+        "explicacion_2_indicadores": 82,
+        "acuerdo_con_exp4": {
+          "adaptacion": 0.7317073170731707,
+          "mitigacion": 0.8292682926829268
+        },
+        "cambios_de_nivel_vs_exp5": null
+      },
+      "Exp 6": {
+        "cobertura": {
+          "adaptacion": {
+            "combinaciones": 1000,
+            "fuerza_dominante_minima": 0.536,
+            "no_concluyentes": 0
+          },
+          "mitigacion": {
+            "combinaciones": 1000,
+            "fuerza_dominante_minima": 0.543,
+            "no_concluyentes": 0
+          }
+        },
+        "coherencia": {
+          "adaptacion": {
+            "pasos": 5043,
+            "retrocesos": 0,
+            "bajadas_de_nivel": 0,
+            "peor_caso": {
+              "retroceso": 0.0
+            }
+          },
+          "mitigacion": {
+            "pasos": 5043,
+            "retrocesos": 9,
+            "bajadas_de_nivel": 0,
+            "peor_caso": {
+              "retroceso": 1.1,
+              "pais": "Hungary",
+              "indicador": "I5",
+              "valor": 0.063
+            }
+          }
+        },
+        "explicacion_2_indicadores": 82,
+        "acuerdo_con_exp4": {
+          "adaptacion": 0.6829268292682927,
+          "mitigacion": 0.8292682926829268
+        },
+        "cambios_de_nivel_vs_exp5": {
+          "adaptacion": 2,
+          "mitigacion": 0
+        }
+      }
+    },
+    "experto_disponible": false,
+    "metricas_experto": {},
+    "niveles_test": {
+      "Kenya": {
+        "adaptacion": "Media",
+        "mitigacion": "Media"
+      },
+      "Bangladesh": {
+        "adaptacion": "Baja",
+        "mitigacion": "Alta"
+      },
+      "Burundi": {
+        "adaptacion": "Media",
+        "mitigacion": "Baja"
+      },
+      "Saudi Arabia": {
+        "adaptacion": "Alta",
+        "mitigacion": "Crítica"
+      },
+      "New Caledonia": {
+        "adaptacion": "Media",
+        "mitigacion": "Media"
+      },
+      "Mauritius": {
+        "adaptacion": "Media",
+        "mitigacion": "Media"
+      },
+      "Gambia": {
+        "adaptacion": "Media",
+        "mitigacion": "Baja"
+      },
+      "Spain": {
+        "adaptacion": "Alta",
+        "mitigacion": "Crítica"
+      },
+      "Sweden": {
+        "adaptacion": "Alta",
+        "mitigacion": "Alta"
+      },
+      "Cuba": {
+        "adaptacion": "Baja",
+        "mitigacion": "Alta"
+      },
+      "France": {
+        "adaptacion": "Alta",
+        "mitigacion": "Alta"
+      },
+      "Tonga": {
+        "adaptacion": "Media",
+        "mitigacion": "Baja"
+      },
+      "Slovakia": {
+        "adaptacion": "Alta",
+        "mitigacion": "Alta"
+      },
+      "Guyana": {
+        "adaptacion": "Alta",
+        "mitigacion": "Media"
+      },
+      "Turkmenistan": {
+        "adaptacion": "Alta",
+        "mitigacion": "Alta"
+      },
+      "Taiwan": {
+        "adaptacion": "Media",
+        "mitigacion": "Crítica"
+      },
+      "Egypt": {
+        "adaptacion": "Alta",
+        "mitigacion": "Crítica"
+      },
+      "Saint Kitts and Nevis": {
+        "adaptacion": "Alta",
+        "mitigacion": "Baja"
+      },
+      "Hungary": {
+        "adaptacion": "Alta",
+        "mitigacion": "Alta"
+      },
+      "Gabon": {
+        "adaptacion": "Media",
+        "mitigacion": "Media"
+      },
+      "Myanmar": {
+        "adaptacion": "Baja",
+        "mitigacion": "Alta"
+      },
+      "Barbados": {
+        "adaptacion": "Alta",
+        "mitigacion": "Media"
+      },
+      "Qatar": {
+        "adaptacion": "Crítica",
+        "mitigacion": "Alta"
+      },
+      "Jordan": {
+        "adaptacion": "Crítica",
+        "mitigacion": "Alta"
+      },
+      "Finland": {
+        "adaptacion": "Alta",
+        "mitigacion": "Alta"
+      },
+      "Estonia": {
+        "adaptacion": "Crítica",
+        "mitigacion": "Alta"
+      },
+      "India": {
+        "adaptacion": "Baja",
+        "mitigacion": "Crítica"
+      },
+      "French Polynesia": {
+        "adaptacion": "Media",
+        "mitigacion": "Baja"
+      },
+      "Namibia": {
+        "adaptacion": "Alta",
+        "mitigacion": "Media"
+      },
+      "Nigeria": {
+        "adaptacion": "Media",
+        "mitigacion": "Crítica"
+      },
+      "Aruba": {
+        "adaptacion": "Media",
+        "mitigacion": "Media"
+      },
+      "Belgium": {
+        "adaptacion": "Alta",
+        "mitigacion": "Alta"
+      },
+      "Ecuador": {
+        "adaptacion": "Baja",
+        "mitigacion": "Alta"
+      },
+      "Guatemala": {
+        "adaptacion": "Baja",
+        "mitigacion": "Alta"
+      },
+      "Russia": {
+        "adaptacion": "Alta",
+        "mitigacion": "Alta"
+      },
+      "Libya": {
+        "adaptacion": "Alta",
+        "mitigacion": "Alta"
+      },
+      "North Macedonia": {
+        "adaptacion": "Crítica",
+        "mitigacion": "Media"
+      },
+      "Oman": {
+        "adaptacion": "Crítica",
+        "mitigacion": "Alta"
+      },
+      "Sint Maarten (Dutch part)": {
+        "adaptacion": "Alta",
+        "mitigacion": "Baja"
+      },
+      "Guinea": {
+        "adaptacion": "Media",
+        "mitigacion": "Media"
+      },
+      "Haiti": {
+        "adaptacion": "Media",
+        "mitigacion": "Media"
+      }
+    }
+  },
+  "percentiles_train": {
+    "I1": {
+      "P20": 0.1503602,
+      "P50": 0.2182485,
+      "P80": 0.3189212
+    },
+    "I3": {
+      "P20": 0.22958340000000002,
+      "P50": 0.31294449999999996,
+      "P80": 0.517264
+    },
+    "I4": {
+      "P20": 0.024608400000000002,
+      "P50": 0.27782799999999996,
+      "P80": 3.4757358000000003
+    },
+    "I5": {
+      "P20": 0.0020818,
+      "P50": 0.021429999999999998,
+      "P80": 0.26817020000000014
+    }
+  },
+  "cuartiles_linea_base": {
+    "I1": [
+      0.16498375,
+      0.2182485,
+      0.30816875
+    ],
+    "I5": [
+      0.00426975,
+      0.021429999999999998,
+      0.19142599999999999
+    ]
+  },
+  "predecir": {
+    "llamadas": 402,
+    "no_concluyentes": 0,
+    "grupo_distinto": 0,
+    "tiempo_ms_promedio": 4.9,
+    "tiempo_ms_p95": 6.28,
+    "tiempo_ms_maximo": 9.08,
+    "distribucion": {
+      "adaptacion": {
+        "Alta": 79,
+        "Media": 71,
+        "Baja": 29,
+        "Crítica": 22
+      },
+      "mitigacion": {
+        "Alta": 70,
+        "Media": 55,
+        "Baja": 49,
+        "Crítica": 27
+      }
+    },
+    "mexico": {
+      "adaptacion": {
+        "prediccion": 37.0,
+        "clase_etiqueta": "Media",
+        "confianza_o_score": 0.967,
+        "tiempo_ms": 7.19,
+        "grupo_kmeans": {
+          "id": 1,
+          "nombre": "Grandes emisores con calentamiento bajo"
+        },
+        "explicacion": "Su prioridad de adaptación es media (37 de 100) porque se calienta 0.22 °C por década (más que el 47 % de los países) y su temperatura varía 0.23 °C de un año a otro (más que el 24 % de los países).",
+        "reglas_activadas": [
+          {
+            "regla": "Calentamiento medio Y variabilidad baja o media -> media",
+            "fuerza": 0.967
+          },
+          {
+            "regla": "Calentamiento medio Y emisiones acumuladas altas -> media",
+            "fuerza": 0.967
+          },
+          {
+            "regla": "Calentamiento bajo Y variabilidad baja o media -> baja",
+            "fuerza": 0.033
+          },
+          {
+            "regla": "Calentamiento bajo Y emisiones acumuladas altas -> baja",
+            "fuerza": 0.033
+          }
+        ],
+        "conjunto_agregado": {
+          "x": [
+            0.0,
+            0.1,
+            0.2,
+            "...",
+            100.0
+          ],
+          "mu": [
+            0.0331,
+            0.0331,
+            0.0331,
+            "...",
+            0.0
+          ],
+          "centroide": 37.0
+        },
+        "estado": "ok"
+      },
+      "mitigacion": {
+        "prediccion": 82.3,
+        "clase_etiqueta": "Crítica",
+        "confianza_o_score": 1.0,
+        "tiempo_ms": 4.85,
+        "grupo_kmeans": {
+          "id": 1,
+          "nombre": "Grandes emisores con calentamiento bajo"
+        },
+        "explicacion": "Su prioridad de mitigación es crítica (82 de 100) porque ha emitido 16.4 Gt de CO₂ en su historia (más que el 93 % de los países) y aporta el 1.48 % de las emisiones mundiales (más que el 95 % de los países).",
+        "reglas_activadas": [
+          {
+            "regla": "Emisiones acumuladas altas Y participación mundial alta -> crítica",
+            "fuerza": 1.0
+          },
+          {
+            "regla": "Emisiones acumuladas altas Y crecimiento positivo -> crítica",
+            "fuerza": 0.647
+          },
+          {
+            "regla": "Participación mundial alta Y crecimiento positivo -> crítica",
+            "fuerza": 0.647
+          },
+          {
+            "regla": "Participación mundial alta Y crecimiento estable -> alta",
+            "fuerza": 0.137
+          }
+        ],
+        "conjunto_agregado": {
+          "x": [
+            0.0,
+            0.1,
+            0.2,
+            "...",
+            100.0
+          ],
+          "mu": [
+            0.0,
+            0.0,
+            0.0,
+            "...",
+            1.0
+          ],
+          "centroide": 82.3
+        },
+        "estado": "ok"
+      }
+    }
+  },
+  "segundos_totales": 58.3
+}
