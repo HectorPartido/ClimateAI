@@ -1,0 +1,204 @@
+pais_berkeley,pais_owid,iso3,metodo
+Afghanistan,Afghanistan,AFG,nombre igual
+Albania,Albania,ALB,nombre igual
+Algeria,Algeria,DZA,nombre igual
+Andorra,Andorra,AND,nombre igual
+Angola,Angola,AGO,nombre igual
+Anguilla,Anguilla,AIA,nombre igual
+Antigua And Barbuda,Antigua and Barbuda,ATG,tabla
+Argentina,Argentina,ARG,nombre igual
+Armenia,Armenia,ARM,nombre igual
+Aruba,Aruba,ABW,nombre igual
+Australia,Australia,AUS,nombre igual
+Austria,Austria,AUT,nombre igual
+Azerbaijan,Azerbaijan,AZE,nombre igual
+Bahamas,Bahamas,BHS,nombre igual
+Bahrain,Bahrain,BHR,nombre igual
+Bangladesh,Bangladesh,BGD,nombre igual
+Barbados,Barbados,BRB,nombre igual
+Belarus,Belarus,BLR,nombre igual
+Belgium,Belgium,BEL,nombre igual
+Belize,Belize,BLZ,nombre igual
+Benin,Benin,BEN,nombre igual
+Bhutan,Bhutan,BTN,nombre igual
+Bolivia,Bolivia,BOL,nombre igual
+"Bonaire, Saint Eustatius And Saba",Bonaire Sint Eustatius and Saba,BES,tabla
+Bosnia And Herzegovina,Bosnia and Herzegovina,BIH,tabla
+Botswana,Botswana,BWA,nombre igual
+Brazil,Brazil,BRA,nombre igual
+British Virgin Islands,British Virgin Islands,VGB,nombre igual
+Bulgaria,Bulgaria,BGR,nombre igual
+Burkina Faso,Burkina Faso,BFA,nombre igual
+Burma,Myanmar,MMR,tabla
+Burundi,Burundi,BDI,nombre igual
+Cambodia,Cambodia,KHM,nombre igual
+Cameroon,Cameroon,CMR,nombre igual
+Canada,Canada,CAN,nombre igual
+Cape Verde,Cape Verde,CPV,nombre igual
+Central African Republic,Central African Republic,CAF,nombre igual
+Chad,Chad,TCD,nombre igual
+Chile,Chile,CHL,nombre igual
+China,China,CHN,nombre igual
+Christmas Island,Christmas Island,CXR,nombre igual
+Colombia,Colombia,COL,nombre igual
+Comoros,Comoros,COM,nombre igual
+Congo,Congo,COG,nombre igual
+Congo (Democratic Republic Of The),Democratic Republic of Congo,COD,tabla
+Costa Rica,Costa Rica,CRI,nombre igual
+Croatia,Croatia,HRV,nombre igual
+Cuba,Cuba,CUB,nombre igual
+Curaçao,Curacao,CUW,tabla
+Cyprus,Cyprus,CYP,nombre igual
+Czech Republic,Czechia,CZE,tabla
+Côte D'Ivoire,Cote d'Ivoire,CIV,tabla
+Denmark (Europe),Denmark,DNK,tabla
+Djibouti,Djibouti,DJI,nombre igual
+Dominica,Dominica,DMA,nombre igual
+Dominican Republic,Dominican Republic,DOM,nombre igual
+Ecuador,Ecuador,ECU,nombre igual
+Egypt,Egypt,EGY,nombre igual
+El Salvador,El Salvador,SLV,nombre igual
+Equatorial Guinea,Equatorial Guinea,GNQ,nombre igual
+Eritrea,Eritrea,ERI,nombre igual
+Estonia,Estonia,EST,nombre igual
+Ethiopia,Ethiopia,ETH,nombre igual
+Faroe Islands,Faroe Islands,FRO,nombre igual
+Federated States Of Micronesia,Micronesia (country),FSM,tabla
+Fiji,Fiji,FJI,nombre igual
+Finland,Finland,FIN,nombre igual
+France (Europe),France,FRA,tabla
+French Polynesia,French Polynesia,PYF,nombre igual
+Gabon,Gabon,GAB,nombre igual
+Gambia,Gambia,GMB,nombre igual
+Georgia,Georgia,GEO,nombre igual
+Germany,Germany,DEU,nombre igual
+Ghana,Ghana,GHA,nombre igual
+Greece,Greece,GRC,nombre igual
+Greenland,Greenland,GRL,nombre igual
+Grenada,Grenada,GRD,nombre igual
+Guatemala,Guatemala,GTM,nombre igual
+Guinea,Guinea,GIN,nombre igual
+Guinea Bissau,Guinea-Bissau,GNB,tabla
+Guyana,Guyana,GUY,nombre igual
+Haiti,Haiti,HTI,nombre igual
+Honduras,Honduras,HND,nombre igual
+Hong Kong,Hong Kong,HKG,nombre igual
+Hungary,Hungary,HUN,nombre igual
+Iceland,Iceland,ISL,nombre igual
+India,India,IND,nombre igual
+Indonesia,Indonesia,IDN,nombre igual
+Iran,Iran,IRN,nombre igual
+Iraq,Iraq,IRQ,nombre igual
+Ireland,Ireland,IRL,nombre igual
+Israel,Israel,ISR,nombre igual
+Italy,Italy,ITA,nombre igual
+Jamaica,Jamaica,JAM,nombre igual
+Japan,Japan,JPN,nombre igual
+Jordan,Jordan,JOR,nombre igual
+Kazakhstan,Kazakhstan,KAZ,nombre igual
+Kenya,Kenya,KEN,nombre igual
+Kiribati,Kiribati,KIR,nombre igual
+Kuwait,Kuwait,KWT,nombre igual
+Kyrgyzstan,Kyrgyzstan,KGZ,nombre igual
+Laos,Laos,LAO,nombre igual
+Latvia,Latvia,LVA,nombre igual
+Lebanon,Lebanon,LBN,nombre igual
+Lesotho,Lesotho,LSO,nombre igual
+Liberia,Liberia,LBR,nombre igual
+Libya,Libya,LBY,nombre igual
+Liechtenstein,Liechtenstein,LIE,nombre igual
+Lithuania,Lithuania,LTU,nombre igual
+Luxembourg,Luxembourg,LUX,nombre igual
+Macau,Macao,MAC,tabla
+Macedonia,North Macedonia,MKD,tabla
+Madagascar,Madagascar,MDG,nombre igual
+Malawi,Malawi,MWI,nombre igual
+Malaysia,Malaysia,MYS,nombre igual
+Mali,Mali,MLI,nombre igual
+Malta,Malta,MLT,nombre igual
+Mauritania,Mauritania,MRT,nombre igual
+Mauritius,Mauritius,MUS,nombre igual
+Mexico,Mexico,MEX,nombre igual
+Moldova,Moldova,MDA,nombre igual
+Mongolia,Mongolia,MNG,nombre igual
+Montenegro,Montenegro,MNE,nombre igual
+Montserrat,Montserrat,MSR,nombre igual
+Morocco,Morocco,MAR,nombre igual
+Mozambique,Mozambique,MOZ,nombre igual
+Namibia,Namibia,NAM,nombre igual
+Nepal,Nepal,NPL,nombre igual
+Netherlands (Europe),Netherlands,NLD,tabla
+New Caledonia,New Caledonia,NCL,nombre igual
+New Zealand,New Zealand,NZL,nombre igual
+Nicaragua,Nicaragua,NIC,nombre igual
+Niger,Niger,NER,nombre igual
+Nigeria,Nigeria,NGA,nombre igual
+Niue,Niue,NIU,nombre igual
+North Korea,North Korea,PRK,nombre igual
+Norway,Norway,NOR,nombre igual
+Oman,Oman,OMN,nombre igual
+Pakistan,Pakistan,PAK,nombre igual
+Palau,Palau,PLW,nombre igual
+Palestina,Palestine,PSE,tabla
+Panama,Panama,PAN,nombre igual
+Papua New Guinea,Papua New Guinea,PNG,nombre igual
+Paraguay,Paraguay,PRY,nombre igual
+Peru,Peru,PER,nombre igual
+Philippines,Philippines,PHL,nombre igual
+Poland,Poland,POL,nombre igual
+Portugal,Portugal,PRT,nombre igual
+Qatar,Qatar,QAT,nombre igual
+Romania,Romania,ROU,nombre igual
+Russia,Russia,RUS,nombre igual
+Rwanda,Rwanda,RWA,nombre igual
+Saint Kitts And Nevis,Saint Kitts and Nevis,KNA,tabla
+Saint Lucia,Saint Lucia,LCA,nombre igual
+Saint Pierre And Miquelon,Saint Pierre and Miquelon,SPM,tabla
+Saint Vincent And The Grenadines,Saint Vincent and the Grenadines,VCT,tabla
+Samoa,Samoa,WSM,nombre igual
+Sao Tome And Principe,Sao Tome and Principe,STP,tabla
+Saudi Arabia,Saudi Arabia,SAU,nombre igual
+Senegal,Senegal,SEN,nombre igual
+Serbia,Serbia,SRB,nombre igual
+Seychelles,Seychelles,SYC,nombre igual
+Sierra Leone,Sierra Leone,SLE,nombre igual
+Singapore,Singapore,SGP,nombre igual
+Sint Maarten,Sint Maarten (Dutch part),SXM,tabla
+Slovakia,Slovakia,SVK,nombre igual
+Slovenia,Slovenia,SVN,nombre igual
+Solomon Islands,Solomon Islands,SLB,nombre igual
+Somalia,Somalia,SOM,nombre igual
+South Africa,South Africa,ZAF,nombre igual
+South Korea,South Korea,KOR,nombre igual
+Spain,Spain,ESP,nombre igual
+Sri Lanka,Sri Lanka,LKA,nombre igual
+Sudan,Sudan,SDN,nombre igual
+Suriname,Suriname,SUR,nombre igual
+Swaziland,Eswatini,SWZ,tabla
+Sweden,Sweden,SWE,nombre igual
+Switzerland,Switzerland,CHE,nombre igual
+Syria,Syria,SYR,nombre igual
+Taiwan,Taiwan,TWN,nombre igual
+Tajikistan,Tajikistan,TJK,nombre igual
+Tanzania,Tanzania,TZA,nombre igual
+Thailand,Thailand,THA,nombre igual
+Timor Leste,East Timor,TLS,tabla
+Togo,Togo,TGO,nombre igual
+Tonga,Tonga,TON,nombre igual
+Trinidad And Tobago,Trinidad and Tobago,TTO,tabla
+Tunisia,Tunisia,TUN,nombre igual
+Turkey,Turkey,TUR,nombre igual
+Turkmenistan,Turkmenistan,TKM,nombre igual
+Turks And Caicas Islands,Turks and Caicos Islands,TCA,tabla
+Uganda,Uganda,UGA,nombre igual
+Ukraine,Ukraine,UKR,nombre igual
+United Arab Emirates,United Arab Emirates,ARE,nombre igual
+United Kingdom (Europe),United Kingdom,GBR,tabla
+United States,United States,USA,nombre igual
+Uruguay,Uruguay,URY,nombre igual
+Uzbekistan,Uzbekistan,UZB,nombre igual
+Venezuela,Venezuela,VEN,nombre igual
+Vietnam,Vietnam,VNM,nombre igual
+Yemen,Yemen,YEM,nombre igual
+Zambia,Zambia,ZMB,nombre igual
+Zimbabwe,Zimbabwe,ZWE,nombre igual
