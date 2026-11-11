@@ -1,0 +1,18 @@
+# Entornos y cachés de Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Editores y sistema
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Nota: data/, models/, reports/ y logs/ SÍ se suben; son parte de la entrega.
+
+# Archivos temporales de Excel
+~$*

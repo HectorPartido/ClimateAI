@@ -1,0 +1,7 @@
+# Fin de línea LF en todos los sistemas (evita cambios falsos entre Windows y Mac)
+* text=auto eol=lf
+# Los CSV originales se guardan tal cual (sin tocar sus fines de línea)
+data/raw/*.csv -text
+*.xlsx binary
+*.png binary
+*.joblib binary

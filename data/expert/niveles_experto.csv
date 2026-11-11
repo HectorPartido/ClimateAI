@@ -1,21 +1,21 @@
-pais,pais_es,nivel_adaptacion,nivel_mitigacion
-Aruba,Aruba,,
-Bangladesh,Bangladés,,
-Belgium,Bélgica,,
-Cuba,Cuba,,
-Gambia,Gambia,,
-Guatemala,Guatemala,,
-India,India,,
-Jordan,Jordania,,
-Kenya,Kenia,,
-Libya,Libia,,
-Myanmar,Myanmar,,
-Namibia,Namibia,,
-New Caledonia,Nueva Caledonia,,
-Nigeria,Nigeria,,
-North Macedonia,Macedonia del Norte,,
-Saudi Arabia,Arabia Saudita,,
-Sint Maarten (Dutch part),Sint Maarten,,
-Spain,España,,
-Sweden,Suecia,,
-Taiwan,Taiwán,,
+pais,pais_es,nivel_adaptacion,nivel_mitigacion,comentario
+Aruba,Aruba,Baja,Baja,Baja alteración térmica en la tabla; en mitigación su peso global es marginal (0.008%) pese al crecimiento porcentual.
+Bangladesh,Bangladés,Baja,Media,En los datos presenta baja alteración térmica; en mitigación requiere seguimiento por duplicar emisiones (+92%).
+Belgium,Bélgica,Media,Media,Alta exposición climática compensada por gran capacidad industrial; en mitigación en seguimiento tras lograr reducción (-6.6%).
+Cuba,Cuba,Baja,Baja,Baja exposición a calentamiento y variabilidad mínima; cuota de emisiones reducida (0.09%) y bajo crecimiento.
+Gambia,Gambia,Media,Baja,Vulnerabilidad socioeconómica por muy baja capacidad histórica (12%); aporte nulo a las emisiones mundiales (0.001%).
+Guatemala,Guatemala,Baja,Baja,Baja exposición en calentamiento y variabilidad en la tabla; impacto de emisiones marginal a escala global (0.04%).
+India,India,Baja,Crítica,En la tabla muestra baja alteración térmica; en mitigación es de los casos más críticos del planeta (4.6% mundial y +67.5%).
+Jordan,Jordania,Crítica,Media,Urgencia crítica de adaptación por rápido calentamiento (86%) y alta variabilidad con recursos limitados; mitigación en seguimiento.
+Kenya,Kenia,Baja,Baja,Baja variabilidad térmica y calentamiento moderado-bajo; emisiones globales insignificantes (0.03%).
+Libya,Libia,Alta,Media,Calentamiento y variabilidad notables (ambos >65%); emisiones actuales moderadas con bajo crecimiento reciente (+5.6%).
+Myanmar,Myanmar,Baja,Baja,Baja señal térmica en la tabla; cuota global de emisiones muy pequeña (0.04%) pese al crecimiento porcentual.
+Namibia,Namibia,Crítica,Baja,Urgencia crítica de adaptación por alta volatilidad térmica (79%) y casi nula base industrial histórica (25%); mitigación no prioritaria.
+New Caledonia,Nueva Caledonia,Media,Baja,Variabilidad media y recursos limitados justifican seguimiento en adaptación; impacto de emisiones marginal (0.01%).
+Nigeria,Nigeria,Media,Media,Exposición climática en torno a la media; en mitigación requiere seguimiento continuo por su peso de emisiones (0.31%).
+North Macedonia,Macedonia del Norte,Alta,Baja,Alta urgencia de adaptación por shock térmico y variabilidad (>73%) con pocos recursos; emisiones mínimas y estancadas.
+Saudi Arabia,Arabia Saudita,Alta,Crítica,Calentamiento extremo (top 9%); en mitigación es crítico por su gran aporte mundial (1.5%) y rápido crecimiento (+68.5%).
+Sint Maarten (Dutch part),Sint Maarten,Media,Baja,Calentamiento moderado con variabilidad térmica muy baja; emisiones mundiales prácticamente inexistentes (0.002%).
+Spain,España,Alta,Alta,Calentamiento acelerado (top 9%); en mitigación debe priorizarse al aportar más del 1% de las emisiones globales.
+Sweden,Suecia,Alta,Media,Variabilidad térmica extrema (top 2%) requiere adaptación activa; mitigación en seguimiento tras fuerte reducción (-10.4%).
+Taiwan,Taiwán,Baja,Alta,Baja urgencia de adaptación en la tabla con alta capacidad; en mitigación debe priorizarse por emitir casi 1% del mundo (0.85%).

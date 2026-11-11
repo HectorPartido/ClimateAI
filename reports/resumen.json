@@ -1,7 +1,7 @@
 {
   "semilla": 42,
   "versiones": {
-    "python": "3.12.10",
+    "python": "3.14.0",
     "numpy": "2.5.4",
     "pandas": "3.1.1",
     "scikit-learn": "1.9.1",
@@ -19,14 +19,14 @@
       "metrica_principal": "Silueta Test: 0.368",
       "metrica_secundaria": "Davies-Bouldin Test: 0.941",
       "metrica_train": "Silueta Train: 0.318",
-      "tiempo": "0.170 s / 0.76 ms",
+      "tiempo": "0.029 s / 0.25 ms",
       "diagnostico": "Subajuste: los grupos no quedan bien separados (silueta en Train < 0.35)",
       "silueta_train": 0.318,
       "silueta_test": 0.368,
       "davies_bouldin_test": 0.941,
       "ari_estabilidad": 0.958,
-      "tiempo_entrenamiento_s": 0.1696,
-      "tiempo_inferencia_ms": 0.763
+      "tiempo_entrenamiento_s": 0.0288,
+      "tiempo_inferencia_ms": 0.253
     },
     {
       "experimento": "Exp 2: Candidato",
@@ -35,14 +35,14 @@
       "metrica_principal": "Silueta Test: 0.382",
       "metrica_secundaria": "Davies-Bouldin Test: 0.814",
       "metrica_train": "Silueta Train: 0.407",
-      "tiempo": "0.045 s / 1.36 ms",
+      "tiempo": "0.006 s / 0.11 ms",
       "diagnostico": "Óptimo: cumple la meta y la separación se mantiene en Test",
       "silueta_train": 0.407,
       "silueta_test": 0.382,
       "davies_bouldin_test": 0.814,
       "ari_estabilidad": 0.822,
-      "tiempo_entrenamiento_s": 0.0449,
-      "tiempo_inferencia_ms": 1.359
+      "tiempo_entrenamiento_s": 0.0063,
+      "tiempo_inferencia_ms": 0.11
     },
     {
       "experimento": "Exp 3: Alternativo",
@@ -51,53 +51,53 @@
       "metrica_principal": "Silueta Test: 0.328",
       "metrica_secundaria": "Davies-Bouldin Test: 1.645",
       "metrica_train": "Silueta Train: 0.329",
-      "tiempo": "0.167 s / 0.38 ms",
+      "tiempo": "0.027 s / 0.09 ms",
       "diagnostico": "Subajuste: los grupos no quedan bien separados (silueta en Train < 0.35)",
       "silueta_train": 0.329,
       "silueta_test": 0.328,
       "davies_bouldin_test": 1.645,
       "ari_estabilidad": 1.0,
-      "tiempo_entrenamiento_s": 0.1671,
-      "tiempo_inferencia_ms": 0.383
+      "tiempo_entrenamiento_s": 0.0271,
+      "tiempo_inferencia_ms": 0.086
     },
     {
       "experimento": "Exp 4: Baseline",
       "modelo": "Regla de cuartiles (1 indicador)",
       "hiperparametros": "Adaptación por I1, mitigación por I5; cortes P25, P50 y P75 de Train",
-      "metrica_principal": "Concordancia con experto: pendiente",
-      "metrica_secundaria": "F1 macro: pendiente",
+      "metrica_principal": "Concordancia con experto: Ada. 9/20 (45%), Mit. 4/20 (20%)",
+      "metrica_secundaria": "F1 macro: Ada. 0.38, Mit. 0.21",
       "metrica_train": "No aplica: no se entrena, solo se calculan percentiles de Train",
-      "tiempo": "< 0.01 s / 0.11 ms por país",
-      "diagnostico": "Línea base: sirve de referencia para Exp 5 y 6",
+      "tiempo": "< 0.01 s / 0.01 ms por país",
+      "diagnostico": "Línea base: no alcanza la meta del 80 %",
       "verificaciones": "Acuerdo de referencia; la explicación usa 1 solo indicador (no cumple el CA6); no detecta casos no concluyentes",
       "tiempo_entrenamiento_s": 0.0,
-      "tiempo_inferencia_ms": 0.111
+      "tiempo_inferencia_ms": 0.015
     },
     {
       "experimento": "Exp 5: Alternativo",
       "modelo": "Lógica difusa Mamdani, reglas versión 1",
       "hiperparametros": "15 reglas por sistema (malla 3 x 3 + 6 ajustes); P20, P50 y P80 de Train; mínimo, máximo y centroide",
-      "metrica_principal": "Concordancia con experto: pendiente",
-      "metrica_secundaria": "F1 macro: pendiente",
+      "metrica_principal": "Concordancia con experto: Ada. 12/20 (60%), Mit. 4/20 (20%)",
+      "metrica_secundaria": "F1 macro: Ada. 0.57, Mit. 0.23",
       "metrica_train": "No aplica: no se entrena, solo se calculan percentiles de Train",
-      "tiempo": "< 0.01 s / 2.00 ms por país",
-      "diagnostico": "Descartado: más riesgo puede bajar la prioridad (reglas que contradicen la malla)",
+      "tiempo": "< 0.01 s / 0.51 ms por país",
+      "diagnostico": "Subajuste: las reglas no capturan el criterio del experto (menos de 80 %); además, más riesgo puede bajar la prioridad",
       "verificaciones": "Cobertura: fuerza dominante mínima 0.54 en 2,000 combinaciones; coherencia: 93 retrocesos en 10,086 pasos (13 bajan de nivel, peor 5.1 puntos); explicación con 2 indicadores: 82/82; acuerdo con Exp 4: Ada. 73%, Mit. 83%",
       "tiempo_entrenamiento_s": 0.0,
-      "tiempo_inferencia_ms": 1.999
+      "tiempo_inferencia_ms": 0.51
     },
     {
       "experimento": "Exp 6: Candidato",
       "modelo": "Lógica difusa Mamdani, reglas versión 2",
       "hiperparametros": "12 reglas por sistema (malla 3 x 2 con el término no alto + 6 ajustes); mismas funciones y operadores",
-      "metrica_principal": "Concordancia con experto: pendiente",
-      "metrica_secundaria": "F1 macro: pendiente",
+      "metrica_principal": "Concordancia con experto: Ada. 13/20 (65%), Mit. 4/20 (20%)",
+      "metrica_secundaria": "F1 macro: Ada. 0.62, Mit. 0.23",
       "metrica_train": "No aplica: no se entrena, solo se calculan percentiles de Train",
-      "tiempo": "< 0.01 s / 1.92 ms por país",
-      "diagnostico": "Coherente; concordancia con el experto pendiente",
+      "tiempo": "< 0.01 s / 0.51 ms por país",
+      "diagnostico": "Subajuste: las reglas no capturan el criterio del experto (menos de 80 %)",
       "verificaciones": "Cobertura: fuerza dominante mínima 0.54 en 2,000 combinaciones; coherencia: 9 retrocesos en 10,086 pasos (0 bajan de nivel, peor 1.1 puntos); explicación con 2 indicadores: 82/82; acuerdo con Exp 4: Ada. 68%, Mit. 83%",
       "tiempo_entrenamiento_s": 0.0,
-      "tiempo_inferencia_ms": 1.92
+      "tiempo_inferencia_ms": 0.514
     }
   ],
   "lineas_base_agrupamiento": {
@@ -294,8 +294,51 @@
         }
       }
     },
-    "experto_disponible": false,
-    "metricas_experto": {},
+    "experto_disponible": true,
+    "metricas_experto": {
+      "Exp 4": {
+        "adaptacion": {
+          "concordancia": 0.45,
+          "aciertos": 9,
+          "n": 20,
+          "f1_macro": 0.38055555555555554
+        },
+        "mitigacion": {
+          "concordancia": 0.2,
+          "aciertos": 4,
+          "n": 20,
+          "f1_macro": 0.20833333333333331
+        }
+      },
+      "Exp 5": {
+        "adaptacion": {
+          "concordancia": 0.6,
+          "aciertos": 12,
+          "n": 20,
+          "f1_macro": 0.5702380952380952
+        },
+        "mitigacion": {
+          "concordancia": 0.2,
+          "aciertos": 4,
+          "n": 20,
+          "f1_macro": 0.22619047619047616
+        }
+      },
+      "Exp 6": {
+        "adaptacion": {
+          "concordancia": 0.65,
+          "aciertos": 13,
+          "n": 20,
+          "f1_macro": 0.6203379953379953
+        },
+        "mitigacion": {
+          "concordancia": 0.2,
+          "aciertos": 4,
+          "n": 20,
+          "f1_macro": 0.22619047619047616
+        }
+      }
+    },
     "niveles_test": {
       "Kenya": {
         "adaptacion": "Media",
@@ -501,9 +544,9 @@
     "llamadas": 402,
     "no_concluyentes": 0,
     "grupo_distinto": 0,
-    "tiempo_ms_promedio": 4.9,
-    "tiempo_ms_p95": 6.28,
-    "tiempo_ms_maximo": 9.08,
+    "tiempo_ms_promedio": 0.93,
+    "tiempo_ms_p95": 1.02,
+    "tiempo_ms_maximo": 1.13,
     "distribucion": {
       "adaptacion": {
         "Alta": 79,
@@ -523,7 +566,7 @@
         "prediccion": 37.0,
         "clase_etiqueta": "Media",
         "confianza_o_score": 0.967,
-        "tiempo_ms": 7.19,
+        "tiempo_ms": 1.02,
         "grupo_kmeans": {
           "id": 1,
           "nombre": "Grandes emisores con calentamiento bajo"
@@ -570,7 +613,7 @@
         "prediccion": 82.3,
         "clase_etiqueta": "Crítica",
         "confianza_o_score": 1.0,
-        "tiempo_ms": 4.85,
+        "tiempo_ms": 0.9,
         "grupo_kmeans": {
           "id": 1,
           "nombre": "Grandes emisores con calentamiento bajo"
@@ -615,5 +658,5 @@
       }
     }
   },
-  "segundos_totales": 58.3
+  "segundos_totales": 14.4
 }
