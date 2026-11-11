@@ -1,0 +1,202 @@
+pais,iso3,conjunto,grupo_id,grupo,puntaje_adaptacion,nivel_adaptacion,fuerza_adaptacion,puntaje_mitigacion,nivel_mitigacion,fuerza_mitigacion
+Yemen,YEM,Train,4,Bajo impacto con calentamiento alto,67.2,Alta,0.503,53.0,Alta,0.792
+China,CHN,Train,1,Grandes emisores con calentamiento bajo,44.3,Media,0.77,86.5,Crítica,1.0
+Bosnia and Herzegovina,BIH,Train,4,Bajo impacto con calentamiento alto,79.2,Crítica,0.79,52.2,Alta,0.844
+Morocco,MAR,Train,3,Emisores históricos con calentamiento alto,78.8,Crítica,1.0,60.6,Alta,0.541
+Venezuela,VEN,Train,1,Grandes emisores con calentamiento bajo,27.3,Media,0.542,78.4,Crítica,1.0
+Burkina Faso,BFA,Train,2,Bajo impacto con calentamiento leve,38.5,Media,0.571,26.6,Media,0.834
+Belize,BLZ,Train,2,Bajo impacto con calentamiento leve,25.6,Media,1.0,13.5,Baja,1.0
+Paraguay,PRY,Train,2,Bajo impacto con calentamiento leve,28.0,Media,0.702,41.0,Media,0.615
+Iran,IRN,Train,3,Emisores históricos con calentamiento alto,73.7,Alta,1.0,86.5,Crítica,1.0
+Mauritania,MRT,Train,4,Bajo impacto con calentamiento alto,73.1,Alta,0.618,28.0,Media,0.811
+Suriname,SUR,Train,2,Bajo impacto con calentamiento leve,53.9,Alta,0.738,21.0,Baja,0.783
+Anguilla,AIA,Train,2,Bajo impacto con calentamiento leve,52.1,Alta,0.844,13.5,Baja,1.0
+Nepal,NPL,Train,2,Bajo impacto con calentamiento leve,47.1,Media,0.798,40.4,Media,0.509
+Micronesia (country),FSM,Train,2,Bajo impacto con calentamiento leve,26.4,Media,0.977,13.5,Baja,1.0
+Greece,GRC,Train,3,Emisores históricos con calentamiento alto,62.5,Alta,0.861,75.5,Crítica,1.0
+Palestine,PSE,Train,2,Bajo impacto con calentamiento leve,47.4,Media,0.817,31.0,Media,0.755
+Kyrgyzstan,KGZ,Train,1,Grandes emisores con calentamiento bajo,35.1,Media,1.0,51.0,Alta,0.849
+Sudan,SDN,Train,4,Bajo impacto con calentamiento alto,48.6,Media,0.572,51.1,Alta,0.92
+Kiribati,KIR,Train,2,Bajo impacto con calentamiento leve,50.1,Alta,0.991,13.5,Baja,1.0
+South Korea,KOR,Train,1,Grandes emisores con calentamiento bajo,54.2,Alta,0.722,86.5,Crítica,1.0
+Kuwait,KWT,Train,3,Emisores históricos con calentamiento alto,74.9,Alta,1.0,77.6,Crítica,0.955
+Cambodia,KHM,Train,2,Bajo impacto con calentamiento leve,25.4,Media,1.0,40.9,Media,0.509
+Azerbaijan,AZE,Train,3,Emisores históricos con calentamiento alto,75.6,Crítica,1.0,57.7,Alta,0.599
+Central African Republic,CAF,Train,2,Bajo impacto con calentamiento leve,50.1,Alta,0.988,13.5,Baja,1.0
+Mongolia,MNG,Train,3,Emisores históricos con calentamiento alto,85.1,Crítica,1.0,51.3,Alta,0.905
+Costa Rica,CRI,Train,2,Bajo impacto con calentamiento leve,35.8,Media,0.627,50.1,Alta,0.993
+Ukraine,UKR,Train,3,Emisores históricos con calentamiento alto,74.4,Alta,1.0,68.3,Alta,1.0
+Italy,ITA,Train,3,Emisores históricos con calentamiento alto,65.4,Alta,1.0,74.4,Alta,1.0
+Norway,NOR,Train,3,Emisores históricos con calentamiento alto,75.4,Crítica,1.0,61.0,Alta,0.515
+Djibouti,DJI,Train,2,Bajo impacto con calentamiento leve,25.7,Media,1.0,13.5,Baja,1.0
+Netherlands,NLD,Train,3,Emisores históricos con calentamiento alto,74.4,Alta,1.0,74.4,Alta,1.0
+Sierra Leone,SLE,Train,2,Bajo impacto con calentamiento leve,45.5,Media,0.705,13.5,Baja,1.0
+Congo,COG,Train,2,Bajo impacto con calentamiento leve,36.0,Media,0.654,44.0,Media,0.632
+Moldova,MDA,Train,3,Emisores históricos con calentamiento alto,78.6,Crítica,1.0,40.8,Media,0.681
+Malta,MLT,Train,4,Bajo impacto con calentamiento alto,72.6,Alta,0.923,28.2,Media,0.662
+Brazil,BRA,Train,1,Grandes emisores con calentamiento bajo,35.7,Media,0.889,86.5,Crítica,1.0
+Palau,PLW,Train,2,Bajo impacto con calentamiento leve,25.6,Media,1.0,13.5,Baja,1.0
+Latvia,LVA,Train,3,Emisores históricos con calentamiento alto,80.9,Crítica,1.0,43.7,Media,0.807
+Malaysia,MYS,Train,1,Grandes emisores con calentamiento bajo,13.5,Baja,1.0,86.5,Crítica,1.0
+Algeria,DZA,Train,3,Emisores históricos con calentamiento alto,67.5,Alta,0.975,79.4,Crítica,0.975
+Guinea-Bissau,GNB,Train,2,Bajo impacto con calentamiento leve,47.1,Media,0.795,13.5,Baja,1.0
+Curacao,CUW,Train,2,Bajo impacto con calentamiento leve,19.2,Baja,0.841,47.5,Media,0.77
+Uruguay,URY,Train,2,Bajo impacto con calentamiento leve,24.9,Baja,0.848,50.1,Alta,0.964
+United Kingdom,GBR,Train,3,Emisores históricos con calentamiento alto,55.2,Alta,0.669,70.7,Alta,1.0
+Indonesia,IDN,Train,1,Grandes emisores con calentamiento bajo,13.5,Baja,1.0,86.5,Crítica,1.0
+Seychelles,SYC,Train,2,Bajo impacto con calentamiento leve,47.4,Media,0.814,13.5,Baja,1.0
+Chad,TCD,Train,4,Bajo impacto con calentamiento alto,62.3,Alta,0.595,20.3,Baja,0.925
+United Arab Emirates,ARE,Train,3,Emisores históricos con calentamiento alto,73.5,Alta,0.936,84.3,Crítica,1.0
+Eswatini,SWZ,Train,2,Bajo impacto con calentamiento leve,33.5,Media,0.741,15.9,Baja,0.939
+Bolivia,BOL,Train,1,Grandes emisores con calentamiento bajo,13.5,Baja,1.0,50.9,Alta,0.913
+Panama,PAN,Train,2,Bajo impacto con calentamiento leve,31.6,Media,0.634,50.1,Alta,0.989
+Lebanon,LBN,Train,4,Bajo impacto con calentamiento alto,67.8,Alta,0.711,51.6,Alta,0.852
+Canada,CAN,Train,3,Emisores históricos con calentamiento alto,74.4,Alta,1.0,75.0,Alta,1.0
+Austria,AUT,Train,3,Emisores históricos con calentamiento alto,74.4,Alta,1.0,74.5,Alta,0.861
+Uzbekistan,UZB,Train,3,Emisores históricos con calentamiento alto,50.1,Alta,0.996,74.5,Alta,1.0
+Senegal,SEN,Train,2,Bajo impacto con calentamiento leve,41.7,Media,0.611,47.7,Media,0.836
+Antigua and Barbuda,ATG,Train,2,Bajo impacto con calentamiento leve,52.1,Alta,0.85,13.5,Baja,1.0
+British Virgin Islands,VGB,Train,2,Bajo impacto con calentamiento leve,53.0,Alta,0.793,13.5,Baja,1.0
+Montenegro,MNE,Train,4,Bajo impacto con calentamiento alto,74.0,Alta,0.724,30.9,Media,0.758
+Angola,AGO,Train,1,Grandes emisores con calentamiento bajo,20.4,Baja,0.803,52.3,Alta,0.834
+Cameroon,CMR,Train,2,Bajo impacto con calentamiento leve,38.5,Media,0.539,49.9,Media,0.997
+Papua New Guinea,PNG,Train,2,Bajo impacto con calentamiento leve,24.5,Baja,1.0,45.8,Media,0.724
+Philippines,PHL,Train,1,Grandes emisores con calentamiento bajo,13.5,Baja,1.0,70.6,Alta,0.658
+Madagascar,MDG,Train,2,Bajo impacto con calentamiento leve,52.1,Alta,0.845,28.9,Media,0.795
+Peru,PER,Train,1,Grandes emisores con calentamiento bajo,13.5,Baja,1.0,56.3,Alta,0.633
+Australia,AUS,Train,1,Grandes emisores con calentamiento bajo,17.6,Baja,1.0,78.9,Crítica,1.0
+Ethiopia,ETH,Train,2,Bajo impacto con calentamiento leve,49.9,Media,0.892,48.5,Media,0.891
+Mali,MLI,Train,2,Bajo impacto con calentamiento leve,50.3,Alta,0.953,28.0,Media,0.81
+Poland,POL,Train,3,Emisores históricos con calentamiento alto,61.5,Alta,0.571,71.5,Alta,1.0
+Slovenia,SVN,Train,3,Emisores históricos con calentamiento alto,81.8,Crítica,0.96,46.4,Media,0.853
+Afghanistan,AFG,Train,4,Bajo impacto con calentamiento alto,86.5,Crítica,1.0,45.6,Media,0.711
+Tanzania,TZA,Train,2,Bajo impacto con calentamiento leve,47.6,Media,0.999,49.0,Media,0.923
+Saint Lucia,LCA,Train,2,Bajo impacto con calentamiento leve,50.3,Alta,0.975,13.5,Baja,1.0
+Georgia,GEO,Train,4,Bajo impacto con calentamiento alto,73.1,Alta,0.698,48.9,Media,0.883
+Mozambique,MOZ,Train,2,Bajo impacto con calentamiento leve,43.3,Media,0.601,32.3,Media,0.729
+Fiji,FJI,Train,2,Bajo impacto con calentamiento leve,25.6,Media,1.0,18.7,Baja,0.945
+Croatia,HRV,Train,3,Emisores históricos con calentamiento alto,79.9,Crítica,0.915,51.8,Alta,0.784
+Singapore,SGP,Train,1,Grandes emisores con calentamiento bajo,21.7,Baja,0.761,57.4,Alta,0.545
+Bulgaria,BGR,Train,3,Emisores históricos con calentamiento alto,70.9,Alta,0.909,68.9,Alta,0.567
+Comoros,COM,Train,2,Bajo impacto con calentamiento leve,50.4,Alta,0.97,13.5,Baja,1.0
+Macao,MAC,Train,2,Bajo impacto con calentamiento leve,25.6,Media,1.0,24.0,Baja,0.874
+Saint Vincent and the Grenadines,VCT,Train,2,Bajo impacto con calentamiento leve,50.0,Alta,0.999,13.5,Baja,1.0
+Samoa,WSM,Train,2,Bajo impacto con calentamiento leve,25.6,Media,1.0,13.5,Baja,1.0
+Botswana,BWA,Train,2,Bajo impacto con calentamiento leve,37.4,Media,0.991,43.0,Media,0.586
+Bonaire Sint Eustatius and Saba,BES,Train,2,Bajo impacto con calentamiento leve,37.5,Media,0.603,13.5,Baja,1.0
+Tunisia,TUN,Train,3,Emisores históricos con calentamiento alto,66.3,Alta,0.773,53.4,Alta,0.769
+Portugal,PRT,Train,3,Emisores históricos con calentamiento alto,69.2,Alta,0.62,64.0,Alta,0.687
+Hong Kong,HKG,Train,1,Grandes emisores con calentamiento bajo,13.5,Baja,1.0,58.0,Alta,0.541
+Colombia,COL,Train,1,Grandes emisores con calentamiento bajo,14.7,Baja,0.97,67.3,Alta,0.757
+Somalia,SOM,Train,2,Bajo impacto con calentamiento leve,52.8,Alta,0.801,14.5,Baja,0.99
+Cyprus,CYP,Train,4,Bajo impacto con calentamiento alto,63.7,Alta,0.504,48.9,Media,0.983
+Kazakhstan,KAZ,Train,3,Emisores históricos con calentamiento alto,74.4,Alta,1.0,86.5,Crítica,1.0
+Saint Pierre and Miquelon,SPM,Train,4,Bajo impacto con calentamiento alto,86.5,Crítica,1.0,13.5,Baja,1.0
+Cote d'Ivoire,CIV,Train,2,Bajo impacto con calentamiento leve,38.1,Media,0.871,40.9,Media,1.0
+Pakistan,PAK,Train,3,Emisores históricos con calentamiento alto,65.0,Alta,0.896,86.5,Crítica,1.0
+Andorra,AND,Train,4,Bajo impacto con calentamiento alto,77.2,Crítica,1.0,13.5,Baja,1.0
+Liechtenstein,LIE,Train,4,Bajo impacto con calentamiento alto,78.7,Crítica,0.774,13.5,Baja,1.0
+Dominican Republic,DOM,Train,1,Grandes emisores con calentamiento bajo,35.3,Media,0.867,50.7,Alta,0.832
+Niue,NIU,Train,2,Bajo impacto con calentamiento leve,25.6,Media,1.0,13.5,Baja,1.0
+Thailand,THA,Train,1,Grandes emisores con calentamiento bajo,13.5,Baja,1.0,86.5,Crítica,1.0
+Zambia,ZMB,Train,2,Bajo impacto con calentamiento leve,40.1,Media,0.628,35.2,Media,0.662
+Turkey,TUR,Train,3,Emisores históricos con calentamiento alto,60.8,Alta,0.546,86.5,Crítica,1.0
+Democratic Republic of Congo,COD,Train,2,Bajo impacto con calentamiento leve,34.8,Media,0.676,23.5,Baja,0.695
+Honduras,HND,Train,2,Bajo impacto con calentamiento leve,22.3,Baja,1.0,50.2,Alta,0.985
+Cape Verde,CPV,Train,4,Bajo impacto con calentamiento alto,64.1,Alta,0.658,13.5,Baja,1.0
+Argentina,ARG,Train,1,Grandes emisores con calentamiento bajo,13.5,Baja,1.0,86.5,Crítica,1.0
+Malawi,MWI,Train,2,Bajo impacto con calentamiento leve,47.3,Media,0.809,18.1,Baja,0.951
+Jamaica,JAM,Train,1,Grandes emisores con calentamiento bajo,21.5,Baja,0.766,39.8,Media,0.962
+Iceland,ISL,Train,4,Bajo impacto con calentamiento alto,82.8,Crítica,0.903,39.2,Media,0.55
+Syria,SYR,Train,3,Emisores históricos con calentamiento alto,72.2,Alta,0.877,61.0,Alta,0.566
+Togo,TGO,Train,2,Bajo impacto con calentamiento leve,43.1,Media,0.594,29.5,Media,0.784
+Israel,ISR,Train,3,Emisores históricos con calentamiento alto,72.9,Alta,0.589,63.8,Alta,0.505
+Armenia,ARM,Train,4,Bajo impacto con calentamiento alto,70.7,Alta,0.518,44.6,Media,0.648
+Bahamas,BHS,Train,2,Bajo impacto con calentamiento leve,23.9,Baja,0.994,28.8,Media,0.775
+Eritrea,ERI,Train,4,Bajo impacto con calentamiento alto,61.4,Alta,0.565,13.5,Baja,1.0
+Sri Lanka,LKA,Train,2,Bajo impacto con calentamiento leve,13.5,Baja,1.0,51.0,Alta,0.926
+Niger,NER,Train,4,Bajo impacto con calentamiento alto,68.3,Alta,0.774,18.3,Baja,0.948
+Belarus,BLR,Train,3,Emisores históricos con calentamiento alto,74.4,Alta,1.0,71.6,Alta,0.694
+Ghana,GHA,Train,2,Bajo impacto con calentamiento leve,36.3,Media,0.572,50.3,Alta,0.979
+Switzerland,CHE,Train,3,Emisores históricos con calentamiento alto,72.6,Alta,0.763,63.8,Alta,0.518
+North Korea,PRK,Train,3,Emisores históricos con calentamiento alto,62.6,Alta,0.606,68.0,Alta,0.757
+Solomon Islands,SLB,Train,2,Bajo impacto con calentamiento leve,30.5,Media,0.842,13.5,Baja,1.0
+Trinidad and Tobago,TTO,Train,1,Grandes emisores con calentamiento bajo,36.9,Media,0.964,58.1,Alta,0.544
+Faroe Islands,FRO,Train,2,Bajo impacto con calentamiento leve,50.4,Alta,0.841,13.6,Baja,1.0
+East Timor,TLS,Train,2,Bajo impacto con calentamiento leve,25.6,Media,1.0,13.5,Baja,1.0
+Luxembourg,LUX,Train,3,Emisores históricos con calentamiento alto,80.2,Crítica,0.956,49.9,Media,0.875
+Denmark,DNK,Train,3,Emisores históricos con calentamiento alto,71.0,Alta,0.892,62.1,Alta,0.577
+Vietnam,VNM,Train,1,Grandes emisores con calentamiento bajo,13.5,Baja,1.0,78.2,Crítica,1.0
+South Africa,ZAF,Train,1,Grandes emisores con calentamiento bajo,13.5,Baja,1.0,82.0,Crítica,1.0
+Equatorial Guinea,GNQ,Train,2,Bajo impacto con calentamiento leve,43.8,Media,0.623,47.8,Media,0.838
+Czechia,CZE,Train,3,Emisores históricos con calentamiento alto,74.4,Alta,1.0,71.0,Alta,1.0
+Ireland,IRL,Train,1,Grandes emisores con calentamiento bajo,48.2,Media,0.514,59.2,Alta,0.514
+Bhutan,BTN,Train,2,Bajo impacto con calentamiento leve,25.6,Media,1.0,13.8,Baja,0.998
+El Salvador,SLV,Train,2,Bajo impacto con calentamiento leve,22.3,Baja,1.0,47.9,Media,0.949
+Serbia,SRB,Train,3,Emisores históricos con calentamiento alto,74.9,Alta,0.952,62.8,Alta,0.55
+United States,USA,Train,3,Emisores históricos con calentamiento alto,57.3,Alta,0.676,74.5,Alta,1.0
+New Zealand,NZL,Train,1,Grandes emisores con calentamiento bajo,25.0,Media,0.637,56.5,Alta,0.587
+Chile,CHL,Train,1,Grandes emisores con calentamiento bajo,13.5,Baja,1.0,69.2,Alta,0.784
+Sao Tome and Principe,STP,Train,2,Bajo impacto con calentamiento leve,44.3,Media,0.645,13.5,Baja,1.0
+Uganda,UGA,Train,2,Bajo impacto con calentamiento leve,36.1,Media,0.651,35.1,Media,0.663
+Albania,ALB,Train,4,Bajo impacto con calentamiento alto,68.3,Alta,0.532,43.8,Media,0.623
+Dominica,DMA,Train,2,Bajo impacto con calentamiento leve,51.3,Alta,0.901,13.5,Baja,1.0
+Romania,ROU,Train,3,Emisores históricos con calentamiento alto,72.1,Alta,0.93,68.7,Alta,1.0
+Nicaragua,NIC,Train,2,Bajo impacto con calentamiento leve,28.8,Media,0.871,43.8,Media,0.623
+Rwanda,RWA,Train,2,Bajo impacto con calentamiento leve,33.7,Media,0.733,13.5,Baja,1.0
+Liberia,LBR,Train,2,Bajo impacto con calentamiento leve,46.0,Media,0.732,13.5,Baja,1.0
+Laos,LAO,Train,2,Bajo impacto con calentamiento leve,25.6,Media,0.989,31.2,Media,0.751
+Mexico,MEX,Train,1,Grandes emisores con calentamiento bajo,36.9,Media,0.964,82.3,Crítica,1.0
+Iraq,IRQ,Train,3,Emisores históricos con calentamiento alto,74.5,Alta,1.0,83.1,Crítica,0.909
+Grenada,GRD,Train,2,Bajo impacto con calentamiento leve,49.8,Media,0.984,13.5,Baja,1.0
+Montserrat,MSR,Train,2,Bajo impacto con calentamiento leve,51.9,Alta,0.861,13.5,Baja,1.0
+Zimbabwe,ZWE,Train,1,Grandes emisores con calentamiento bajo,41.1,Media,0.678,42.6,Media,0.869
+Benin,BEN,Train,2,Bajo impacto con calentamiento leve,45.5,Media,0.708,40.5,Media,0.508
+Turks and Caicos Islands,TCA,Train,2,Bajo impacto con calentamiento leve,41.0,Media,0.509,13.5,Baja,1.0
+Germany,DEU,Train,3,Emisores históricos con calentamiento alto,72.8,Alta,0.952,69.6,Alta,1.0
+Lithuania,LTU,Train,3,Emisores históricos con calentamiento alto,77.3,Crítica,0.986,49.1,Media,0.633
+Bahrain,BHR,Train,3,Emisores históricos con calentamiento alto,82.3,Crítica,0.969,53.7,Alta,0.752
+Japan,JPN,Train,1,Grandes emisores con calentamiento bajo,51.6,Alta,0.792,74.4,Alta,1.0
+Tajikistan,TJK,Train,4,Bajo impacto con calentamiento alto,64.9,Alta,0.759,25.9,Media,0.678
+Lesotho,LSO,Train,2,Bajo impacto con calentamiento leve,26.9,Media,0.921,31.6,Media,0.743
+Kenya,KEN,Test,2,Bajo impacto con calentamiento leve,28.9,Media,0.529,47.8,Media,0.958
+Bangladesh,BGD,Test,1,Grandes emisores con calentamiento bajo,13.5,Baja,1.0,59.3,Alta,0.501
+Burundi,BDI,Test,2,Bajo impacto con calentamiento leve,33.2,Media,0.749,13.5,Baja,1.0
+Saudi Arabia,SAU,Test,3,Emisores históricos con calentamiento alto,71.4,Alta,1.0,86.5,Crítica,1.0
+New Caledonia,NCL,Test,2,Bajo impacto con calentamiento leve,26.8,Media,0.942,37.4,Media,0.604
+Mauritius,MUS,Test,2,Bajo impacto con calentamiento leve,49.3,Media,0.977,40.3,Media,0.515
+Gambia,GMB,Test,2,Bajo impacto con calentamiento leve,42.3,Media,0.558,13.5,Baja,1.0
+Spain,ESP,Test,3,Emisores históricos con calentamiento alto,69.4,Alta,1.0,76.9,Crítica,1.0
+Sweden,SWE,Test,3,Emisores históricos con calentamiento alto,74.4,Alta,1.0,64.8,Alta,0.585
+Cuba,CUB,Test,1,Grandes emisores con calentamiento bajo,13.5,Baja,1.0,55.7,Alta,0.613
+France,FRA,Test,3,Emisores históricos con calentamiento alto,72.3,Alta,1.0,72.6,Alta,1.0
+Tonga,TON,Test,2,Bajo impacto con calentamiento leve,25.6,Media,1.0,13.5,Baja,1.0
+Slovakia,SVK,Test,3,Emisores históricos con calentamiento alto,71.1,Alta,0.897,64.2,Alta,0.567
+Guyana,GUY,Test,2,Bajo impacto con calentamiento leve,51.3,Alta,0.886,28.1,Media,0.81
+Turkmenistan,TKM,Test,3,Emisores históricos con calentamiento alto,63.7,Alta,0.642,62.7,Alta,0.609
+Taiwan,TWN,Test,1,Grandes emisores con calentamiento bajo,26.1,Media,0.594,86.5,Crítica,1.0
+Egypt,EGY,Test,1,Grandes emisores con calentamiento bajo,58.5,Alta,0.644,86.5,Crítica,1.0
+Saint Kitts and Nevis,KNA,Test,2,Bajo impacto con calentamiento leve,52.0,Alta,0.854,13.5,Baja,1.0
+Hungary,HUN,Test,3,Emisores históricos con calentamiento alto,74.4,Alta,1.0,66.3,Alta,0.632
+Gabon,GAB,Test,2,Bajo impacto con calentamiento leve,35.5,Media,0.608,34.6,Media,0.823
+Myanmar,MMR,Test,1,Grandes emisores con calentamiento bajo,13.5,Baja,1.0,50.9,Alta,0.932
+Barbados,BRB,Test,2,Bajo impacto con calentamiento leve,50.5,Alta,0.955,25.2,Media,0.856
+Qatar,QAT,Test,3,Emisores históricos con calentamiento alto,78.3,Crítica,1.0,66.4,Alta,0.735
+Jordan,JOR,Test,4,Bajo impacto con calentamiento alto,80.4,Crítica,0.83,52.6,Alta,0.818
+Finland,FIN,Test,3,Emisores históricos con calentamiento alto,74.7,Alta,1.0,67.4,Alta,0.713
+Estonia,EST,Test,3,Emisores históricos con calentamiento alto,77.7,Crítica,1.0,50.4,Alta,0.618
+India,IND,Test,1,Grandes emisores con calentamiento bajo,20.1,Baja,0.814,86.5,Crítica,1.0
+French Polynesia,PYF,Test,2,Bajo impacto con calentamiento leve,33.0,Media,0.758,16.8,Baja,0.966
+Namibia,NAM,Test,4,Bajo impacto con calentamiento alto,71.7,Alta,0.505,34.4,Media,0.68
+Nigeria,NGA,Test,1,Grandes emisores con calentamiento bajo,38.9,Media,0.959,75.6,Crítica,0.922
+Aruba,ABW,Test,2,Bajo impacto con calentamiento leve,29.6,Media,0.871,33.8,Media,0.696
+Belgium,BEL,Test,3,Emisores históricos con calentamiento alto,71.9,Alta,0.923,70.5,Alta,1.0
+Ecuador,ECU,Test,1,Grandes emisores con calentamiento bajo,16.6,Baja,0.919,55.3,Alta,0.664
+Guatemala,GTM,Test,1,Grandes emisores con calentamiento bajo,13.5,Baja,1.0,50.8,Alta,0.941
+Russia,RUS,Test,3,Emisores históricos con calentamiento alto,74.4,Alta,1.0,74.5,Alta,1.0
+Libya,LBY,Test,3,Emisores históricos con calentamiento alto,61.4,Alta,0.516,60.5,Alta,0.609
+North Macedonia,MKD,Test,4,Bajo impacto con calentamiento alto,79.1,Crítica,0.833,40.5,Media,0.945
+Oman,OMN,Test,3,Emisores históricos con calentamiento alto,81.5,Crítica,1.0,58.9,Alta,0.513
+Sint Maarten (Dutch part),SXM,Test,2,Bajo impacto con calentamiento leve,52.1,Alta,0.844,13.5,Baja,1.0
+Guinea,GIN,Test,2,Bajo impacto con calentamiento leve,48.7,Media,0.909,30.1,Media,0.772
+Haiti,HTI,Test,2,Bajo impacto con calentamiento leve,42.9,Media,0.585,28.8,Media,0.797
