@@ -1,0 +1,96 @@
+{
+  "etiqueta_a_grupo": {
+    "0": 1,
+    "1": 2,
+    "2": 3,
+    "3": 4
+  },
+  "grupos": {
+    "1": {
+      "nombre": "Grandes emisores con calentamiento bajo",
+      "n": 37,
+      "n_train": 28,
+      "n_test": 9,
+      "centroide": {
+        "I1": 0.1536,
+        "I2": 0.5088,
+        "I3": 0.2973,
+        "I4": 3.3681,
+        "I5": 0.2766,
+        "I6": 25.9404
+      }
+    },
+    "2": {
+      "nombre": "Bajo impacto con calentamiento leve",
+      "n": 84,
+      "n_train": 69,
+      "n_test": 15,
+      "centroide": {
+        "I1": 0.1808,
+        "I2": 0.6097,
+        "I3": 0.267,
+        "I4": 0.0334,
+        "I5": 0.0046,
+        "I6": 59.8936
+      }
+    },
+    "3": {
+      "nombre": "Emisores históricos con calentamiento alto",
+      "n": 56,
+      "n_train": 42,
+      "n_test": 14,
+      "centroide": {
+        "I1": 0.3369,
+        "I2": 1.0451,
+        "I3": 0.5773,
+        "I4": 4.4992,
+        "I5": 0.2735,
+        "I6": 18.248
+      }
+    },
+    "4": {
+      "nombre": "Bajo impacto con calentamiento alto",
+      "n": 24,
+      "n_train": 21,
+      "n_test": 3,
+      "centroide": {
+        "I1": 0.2983,
+        "I2": 0.9499,
+        "I3": 0.4574,
+        "I4": 0.083,
+        "I5": 0.0091,
+        "I6": 49.5907
+      }
+    }
+  },
+  "pca_varianza": [
+    0.5234,
+    0.2421
+  ],
+  "pca_cargas": {
+    "I1": [
+      0.459,
+      -0.411
+    ],
+    "I2": [
+      0.447,
+      -0.443
+    ],
+    "I3": [
+      0.457,
+      -0.193
+    ],
+    "I4": [
+      0.428,
+      0.521
+    ],
+    "I5": [
+      0.401,
+      0.541
+    ],
+    "I6": [
+      -0.191,
+      -0.182
+    ]
+  }
+}
