@@ -6,7 +6,7 @@ Rama: feat/pipeline-predict
 Pasos:
   1. src.data.preprocess.main(): indicadores I1 a I6 y partición Train/Test.
   2. src.models.clustering.entrenar(): Exp 1 a 3 (grupos de países).
-  3. src.models.fuzzy.ajustar() y evaluar(): Exp 4 y 5 (prioridades).
+  3. src.models.fuzzy.ajustar() y evaluar(): Exp 4 a 7 (cuartiles, Mamdani v1/v2 del equipo y v3 calibrado).
   4. Matriz de experimentación en reports/experimentos.csv y números en reports/resumen.json.
   5. Prueba final de predecir() con los 201 países y los 2 sistemas (reports/niveles_pais.csv).
 El registro sale en consola y en logs/entrenamiento.log con "[INFO]" y "[SUCCESS]".
@@ -119,19 +119,20 @@ def main(raw_dir: Path = DATA_RAW, out_dir: Path = MODELS) -> dict:
     log.log(SUCCESS, "Modelos guardados en %s: scaler.joblib, pca.joblib, kmeans_k4.joblib, gmm_k4.joblib y grupos.json",
             relativa(out_dir))
 
-    log.info("Ajustando los sistemas difusos con los percentiles de Train y evaluando en Test (Exp 4 a 6)...")
+    log.info("Ajustando los sistemas difusos calibrados con Train y evaluando en Test (Exp 4 a 7)...")
     params = fuzzy.ajustar(indicadores, out_dir / DIFUSO.name)
     dif = fuzzy.evaluar(indicadores, params, FIGURAS)
     for f in dif["experimentos"]:
         log.info("%s | %s | %s | %s", f["experimento"], f["metrica_principal"], f["metrica_secundaria"], f["diagnostico"])
-    for exp in ("Exp 5", "Exp 6"):
+    for exp in ("Exp 5", "Exp 6", "Exp 7"):
         v = dif["verificaciones"][exp]
         for s in SISTEMAS:
             c, co = v["cobertura"][s], v["coherencia"][s]
             log.info("%s %s: cobertura %d combinaciones (fuerza dominante mínima %.2f, %d no concluyentes) | "
-                     "coherencia %d retrocesos en %d pasos (%d bajan de nivel) | acuerdo con Exp 4 %.0f %%",
+                     "coherencia %d retrocesos en %d pasos (%d bajan de nivel, peor %.1f) | acuerdo con Exp 4 %.0f %%",
                      exp, s, c["combinaciones"], c["fuerza_dominante_minima"], c["no_concluyentes"],
-                     co["retrocesos"], co["pasos"], co["bajadas_de_nivel"], 100 * v["acuerdo_con_exp4"][s])
+                     co["retrocesos"], co["pasos"], co["bajadas_de_nivel"], co["peor_caso"]["retroceso"],
+                     100 * v["acuerdo_con_exp4"][s])
     if not dif["experto_disponible"]:
         log.warning("Sin niveles del experto en data/expert/niveles_experto.csv: concordancia y F1 quedan pendientes")
     log.log(SUCCESS, "Sistemas difusos guardados en %s", relativa(out_dir / DIFUSO.name))

@@ -1,11 +1,12 @@
-"""ClimateAI: función de inferencia desacoplada predecir() (PR 4).
+"""ClimateAI: función de inferencia desacoplada predecir() (PR 4 + corrección).
 
-Responsable: Gildardo Emmanuel González García (Líder de Pipeline e Integración).
-Rama: feat/pipeline-predict
+Responsable original: Gildardo Emmanuel González García (Líder de Pipeline e Integración).
+Revisión: pre-carga funciones de pertenencia por sistema y evita importar matplotlib
+en tiempo de inferencia (resolvía latencias de arranque > 3,000 ms en entornos restringidos).
 
 Es el contrato entre el motor de IA y el tablero de la Entrega 4: el tablero solo
-llama a predecir() y nunca entrena nada. La Entrega 2 la ubicaba en src/modelo.py;
-aquí vive en src/models/predict.py, que es la estructura que pide la plantilla.
+llama a predecir() y nunca entrena nada. Consume el candidato de agrupamiento
+(Exp 2: PCA + K-means) y el candidato difuso calibrado (Exp 7: Mamdani v3).
 
 Entrada (sección 5 de la Entrega 2): dict con I1 a I6 en unidades originales y
 "sistema" ("adaptacion" o "mitigacion"); "pais" es opcional. Si falta una llave, un
@@ -33,7 +34,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 from src.config import (DIFUSO, GRUPOS, KMEANS, MODELS, PCA_MODELO, RANGOS, SCALER, SISTEMAS,  # noqa: E402
                         consola_utf8)
 from src.data.preprocess import preparar_matriz  # noqa: E402
-from src.models.fuzzy import cargar_params, explicar, inferir  # noqa: E402
+from src.models.fuzzy import cargar_params, explicar, funciones_pertenencia, inferir  # noqa: E402
 
 # Ejemplo de la Entrega 2 (México, corte 2012)
 EJEMPLO_MEXICO = {"pais": "Mexico", "I1": 0.216, "I2": 0.551, "I3": 0.233,
@@ -42,18 +43,21 @@ EJEMPLO_MEXICO = {"pais": "Mexico", "I1": 0.216, "I2": 0.551, "I3": 0.233,
 
 @lru_cache(maxsize=1)
 def _artefactos(carpeta: str = str(MODELS)) -> dict:
-    """Carga los modelos una sola vez (la primera llamada) y los reutiliza."""
+    """Carga modelos una sola vez y pre-calcula mallas de pertenencia de ambos sistemas."""
     c = Path(carpeta)
     archivos = (SCALER.name, PCA_MODELO.name, KMEANS.name, DIFUSO.name, GRUPOS.name)
     faltan = [n for n in archivos if not (c / n).exists()]
     if faltan:
         raise FileNotFoundError(f"Faltan artefactos en {c}: {', '.join(faltan)}. "
                                 "Corre primero: python src/models/train.py --raw data/raw --output models/")
+    difuso = cargar_params(c / DIFUSO.name)
+    for s in SISTEMAS:
+        funciones_pertenencia(difuso, s)
     return {
         "scaler": joblib.load(c / SCALER.name),
         "pca": joblib.load(c / PCA_MODELO.name),
         "kmeans": joblib.load(c / KMEANS.name),
-        "difuso": cargar_params(c / DIFUSO.name),
+        "difuso": difuso,
         "grupos": json.loads((c / GRUPOS.name).read_text(encoding="utf-8")),
     }
 

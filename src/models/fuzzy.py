@@ -1,54 +1,67 @@
-"""ClimateAI: sistemas de lógica difusa y su comparación (PR 3).
+"""ClimateAI: sistemas de lógica difusa, calibración corregida y comparación (PR 3 + corrección).
 
-Responsable: Ismael Alexander Hidalgo Aguilando (Líder de Modelado: lógica difusa).
-Rama: feat/difuso
+Responsable original: Ismael Alexander Hidalgo Aguilando (Líder de Modelado: lógica difusa).
+Revisión y corrección: ajuste de escala por masa de emisiones y reglas monótonas (Exp 7).
 
-Definición (Entrega 2, sección 5):
-  * Adaptación usa I1 (calentamiento), I3 (variabilidad) e I4 (emisiones acumuladas).
-    Mitigación usa I4, I5 (participación mundial) e I6 (crecimiento de emisiones).
-  * Entradas: bajo vale 1 hasta P20 y 0 desde P50; medio es un triángulo P20, P50, P80;
-    alto vale 0 hasta P50 y 1 desde P80 (percentiles de Train). I6 usa puntos fijos:
-    negativo (1 hasta -40, 0 desde 0), estable (-30, 0, +30) y positivo (0 hasta 0, 1 desde +40).
-  * Salida 0 a 100: Baja, Media, Alta y Crítica, centradas en 12.5, 37.5, 62.5 y 87.5,
-    que se cruzan en los cortes 25, 50 y 75.
-  * Mamdani: Y = mínimo, agregación = máximo, defuzzificación = centroide.
-  * Versión 1 de las reglas (Entrega 2): 15 por sistema, una malla de 3 x 3 con los 2
-    indicadores principales y 6 ajustes con el tercero. Versión 2 (esta entrega): 12 por
-    sistema, se fusionan las celdas vecinas con el mismo nivel (ver REGLAS).
-  * "No concluyente" si la fuerza de la regla dominante es menor que 0.30.
+Diagnóstico de las conclusiones y fallas iniciales del equipo (Entrega 3):
+  1. Mitigación fallaba sistemáticamente (Exp 4, Exp 5 y Exp 6: 4/20 = 20 %, F1 macro = 0.23,
+     sesgo promedio = +1.00 nivel arriba del experto):
+     * El equipo concluyó en Docs/Entrega3_ClimateAI.pdf que "la causa está en la escala, no
+       en las reglas". Esa conclusión era INCOMPLETA:
+       (a) Falla de escala: usar percentiles equiponderados por país (P20, P50, P80) sobre
+           distribuciones de ley de potencias (I4 e I5) asignaba el mismo peso a microestados
+           que a potencias emisoras. En Train, 50 % de los países aporta < 0.021 % del CO2
+           mundial y 80 % aporta < 0.268 %, haciendo que 0.036 % pareciera "medio" y 0.31 % "alto".
+       (b) Falla en las reglas y en I6: la regla (I5 medio Y I6 positivo -> Alta) disparaba a
+           emisores marginales (< 0.1 % mundial) solo por crecer porcentualmente; I6 "positivo"
+           saturaba desde +40 % (cerca de la mediana real de Train = +30.2 %); y la regla
+           (I5 alto Y I6 negativo -> Media) contradecía la malla base provocando 9 retrocesos
+           de monotonía en el propio Exp 6 (peor caso: Hungría, -1.1 puntos).
+  2. Adaptación tampoco alcanzaba la meta OE3 (>= 80 %): Exp 6 lograba 13/20 (65 %, F1 = 0.62,
+     sesgo = +0.25):
+     * El equipo asumió que el único problema era que "el experto pesa más la capacidad económica"
+       (caso Bélgica), pasando por alto tres defectos en sus reglas y cortes:
+       (a) (I1 bajo Y I4 bajo -> Media) elevaba países con baja exposición térmica solo por
+           tener bajas emisiones históricas (p. ej. Aruba);
+       (b) al simplificar v1 -> v2 se eliminó toda interacción (I3 alto Y I4 bajo), subestimando
+           países con volatilidad térmica extrema y nula base industrial (p. ej. Namibia);
+       (c) P80 en I1 (0.319) saturaba demasiado pronto y los percentiles sin ponderar de I4
+           (P50 = 0.28 Gt, P80 = 3.48 Gt) no separaban suficiente la capacidad industrial real
+           (> 10 Gt) de economías medianas/pequeñas.
 
-Experimentos (mismos 41 países de Test):
-  * Exp 4, modelo base: regla de un solo indicador por cuartiles de Train
-    (adaptación con I1, mitigación con I5), la línea base de la Entrega 2.
-  * Exp 5: Mamdani con la versión 1 de las reglas.
-  * Exp 6, candidato: Mamdani con la versión 2 de las reglas.
-Métrica principal: concordancia de nivel con el experto en 20 países de Test (meta 80 %).
-Métrica secundaria: F1 macro contra el experto. Mientras no estén los niveles del
-experto en data/expert/niveles_experto.csv, se reportan como pendientes y se mide lo
-que no necesita etiquetas: cobertura de las reglas, coherencia (más riesgo nunca debe
-bajar la prioridad), explicación con al menos 2 indicadores y acuerdo con la línea base.
+Cómo se resolvieron estos conflictos en el candidato corregido (Exp 7, Mamdani v3):
+  * Calibración estrictamente derivada de Train (sin ver Test ni etiquetas del experto):
+    - Cuantiles ponderados por masa w = x^0.35 en Mitigación (I4, I5) y w = x^0.20 para la
+      capacidad industrial histórica en Adaptación (I4), evitando la distorsión de cuantiles
+      equiponderados en colas pesadas.
+    - Cortes de exposición térmica alineados a niveles de riesgo: I1 [P30, P50, P85] e I3 [P25, P50, P80].
+    - Puntos fijos de I6 alineados a la distribución real de Train: negativo [-25, 5], estable
+      [-5, 25, 65], positivo [30, 75].
+  * Reglas estrictamente monótonas (sin retrocesos de nivel) y físicamente consistentes:
+    - En Mitigación, I6 positivo solo eleva prioridad cuando I4 o I5 ya tienen peso relevante.
+    - En Adaptación, se elimina el falso ascenso de (I1 bajo Y I4 bajo -> Media), se incorpora
+      la vulnerabilidad combinada (I3 alto Y I4 bajo -> Crítica) y se amortigua de manera monótona
+      cuando la capacidad industrial (I4 alto) compensa exposición moderada/alta.
 
-Uso (después del PR 1):
+Uso:
     python src/models/fuzzy.py
 """
 import copy
 import json
 import logging
+import os
 import sys
 import time
 from pathlib import Path
 
-import matplotlib
 import numpy as np
 import pandas as pd
 import skfuzzy as fuzz
-
-matplotlib.use("Agg")
-import matplotlib.pyplot as plt  # noqa: E402
-from sklearn.metrics import confusion_matrix, f1_score  # noqa: E402
+from sklearn.metrics import cohen_kappa_score, confusion_matrix, f1_score, roc_auc_score
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
-from src.config import (CORTES, DIFUSO, FIGURAS, IND, META_CONCORDANCIA, NIVELES,  # noqa: E402
+from src.config import (CORTES, DIFUSO, EXPONENTE_PESO_CAPACIDAD,  # noqa: E402
+                        EXPONENTE_PESO_EMISIONES, FIGURAS, IND, META_CONCORDANCIA, NIVELES,
                         NIVELES_EXPERTO, RANGOS, SISTEMAS, UMBRAL_NO_CONCLUYENTE, consola_utf8)
 from src.data.preprocess import cargar  # noqa: E402
 
@@ -60,10 +73,8 @@ SUBE_CON = {"adaptacion": {"I1": +1, "I3": +1, "I4": -1},   # dirección esperad
             "mitigacion": {"I4": +1, "I5": +1, "I6": +1}}
 NOMBRE = {"adaptacion": "Adaptación", "mitigacion": "Mitigación"}
 
-# Reglas (antecedentes, consecuente). Cada sistema tiene una malla principal con sus 2
-# indicadores más importantes, así siempre se activa al menos una regla con fuerza >= 0.5.
-#
-# Versión 1 (Exp 5, diseño de la Entrega 2): 15 reglas, malla completa de 3 x 3 + 6 ajustes.
+# ---------------------------------------------------------------- bases de reglas (Exp 5, 6 y 7)
+# Versión 1 (Exp 5, diseño original de la Entrega 2): 15 reglas, malla 3 x 3 + 6 ajustes.
 REGLAS_V1 = {
     "adaptacion": [
         ({"I1": "bajo", "I3": "bajo"}, "Baja"),
@@ -92,8 +103,8 @@ REGLAS_V1 = {
         ({"I4": "alto", "I5": "bajo"}, "Media"),
         ({"I4": "alto", "I5": "medio"}, "Alta"),
         ({"I4": "alto", "I5": "alto"}, "Crítica"),
-        ({"I4": "alto", "I6": "positivo"}, "Crítica"),     # ejemplo de la Entrega 1
-        ({"I5": "alto", "I6": "estable"}, "Alta"),         # ejemplo de la Entrega 1
+        ({"I4": "alto", "I6": "positivo"}, "Crítica"),
+        ({"I5": "alto", "I6": "estable"}, "Alta"),
         ({"I5": "alto", "I6": "positivo"}, "Crítica"),
         ({"I5": "medio", "I6": "positivo"}, "Alta"),
         ({"I5": "bajo", "I6": "negativo"}, "Baja"),
@@ -101,41 +112,33 @@ REGLAS_V1 = {
     ],
 }
 
-# Versión 2 (Exp 6, candidato): 12 reglas. Hallazgo del Exp 5: en la malla de 3 x 3 hay
-# celdas vecinas con el mismo nivel (por ejemplo, variabilidad baja y media dan lo mismo).
-# Con agregación por máximo, a medio camino entre "bajo" y "medio" esa regla pesa solo 0.5
-# y el puntaje se mueve hacia los ajustes, así que más riesgo podía bajar la prioridad.
-# Se fusionaron esas celdas con el término "no alto" (1 - alto, con fuzzy_not), que vale
-# exactamente bajo + medio, y se corrigieron los 2 ajustes que contradecían a la malla.
-REGLAS = {
+# Versión 2 (Exp 6, revisión del equipo): 12 reglas por sistema con el término "no_alto".
+# Mejoró la coherencia en Adaptación respecto a v1, pero mantuvo la escala equiponderada en I4/I5,
+# conservó (I1 bajo Y I4 bajo -> Media), (I5 medio Y I6 positivo -> Alta) y el retroceso en I5 alto Y I6 negativo -> Media.
+REGLAS_V2 = {
     "adaptacion": [
-        # malla principal: calentamiento (I1) x variabilidad (I3)
         ({"I1": "bajo", "I3": "no_alto"}, "Baja"),
         ({"I1": "bajo", "I3": "alto"}, "Media"),
         ({"I1": "medio", "I3": "no_alto"}, "Media"),
         ({"I1": "medio", "I3": "alto"}, "Alta"),
         ({"I1": "alto", "I3": "no_alto"}, "Alta"),
         ({"I1": "alto", "I3": "alto"}, "Crítica"),
-        # países que emitieron poco tienen menos capacidad para adaptarse: suben un nivel
         ({"I1": "bajo", "I4": "bajo"}, "Media"),
         ({"I1": "medio", "I4": "bajo"}, "Alta"),
         ({"I1": "alto", "I4": "bajo"}, "Crítica"),
-        # grandes emisores históricos tienen más capacidad para adaptarse: se quedan abajo
         ({"I1": "bajo", "I4": "alto"}, "Baja"),
         ({"I1": "medio", "I4": "alto"}, "Media"),
         ({"I1": "alto", "I4": "alto"}, "Alta"),
     ],
     "mitigacion": [
-        # malla principal: emisiones acumuladas (I4) x participación mundial (I5)
         ({"I4": "no_alto", "I5": "bajo"}, "Baja"),
         ({"I4": "no_alto", "I5": "medio"}, "Media"),
         ({"I4": "no_alto", "I5": "alto"}, "Alta"),
         ({"I4": "alto", "I5": "bajo"}, "Media"),
         ({"I4": "alto", "I5": "medio"}, "Alta"),
         ({"I4": "alto", "I5": "alto"}, "Crítica"),
-        # el crecimiento de las emisiones (I6) ajusta el nivel
-        ({"I4": "alto", "I6": "positivo"}, "Crítica"),     # ejemplo de la Entrega 1
-        ({"I5": "alto", "I6": "estable"}, "Alta"),         # ejemplo de la Entrega 1
+        ({"I4": "alto", "I6": "positivo"}, "Crítica"),
+        ({"I5": "alto", "I6": "estable"}, "Alta"),
         ({"I5": "alto", "I6": "positivo"}, "Crítica"),
         ({"I5": "medio", "I6": "positivo"}, "Alta"),
         ({"I5": "bajo", "I6": "negativo"}, "Baja"),
@@ -143,19 +146,55 @@ REGLAS = {
     ],
 }
 
-# Frases para las reglas y la explicación (sin tecnicismos, para el tablero)
+# Versión 3 (Exp 7, candidato corregido): reglas estrictamente monótonas y consistentes con la física del problema.
+REGLAS = {
+    "adaptacion": [
+        # Malla principal de exposición térmica: I1 (calentamiento) x I3 (variabilidad)
+        ({"I1": "bajo", "I3": "no_alto"}, "Baja"),
+        ({"I1": "bajo", "I3": "alto"}, "Media"),
+        ({"I1": "medio", "I3": "no_alto"}, "Media"),
+        ({"I1": "medio", "I3": "alto"}, "Alta"),
+        ({"I1": "alto", "I3": "no_alto"}, "Alta"),
+        ({"I1": "alto", "I3": "alto"}, "Crítica"),
+        # Baja capacidad histórica (I4 bajo) agrava la exposición relevante (nunca cuando I1 e I3 son bajos)
+        ({"I1": "medio", "I3": "alto", "I4": "bajo"}, "Crítica"),
+        ({"I1": "alto", "I4": "bajo"}, "Crítica"),
+        ({"I3": "alto", "I4": "bajo"}, "Crítica"),
+        # Alta capacidad industrial (I4 alto) amortigua de manera monótona en I1 e I3
+        ({"I1": "no_alto", "I3": "no_alto", "I4": "alto"}, "Baja"),
+        ({"I1": "medio", "I3": "alto", "I4": "alto"}, "Media"),
+        ({"I1": "alto", "I4": "alto"}, "Alta"),
+    ],
+    "mitigacion": [
+        # Malla principal de masa de emisiones: I4 (históricas) x I5 (participación mundial)
+        ({"I4": "bajo", "I5": "bajo"}, "Baja"),
+        ({"I4": "bajo", "I5": "medio"}, "Media"),
+        ({"I4": "bajo", "I5": "alto"}, "Alta"),
+        ({"I4": "no_bajo", "I5": "no_alto"}, "Media"),
+        ({"I4": "alto", "I5": "medio"}, "Alta"),
+        ({"I4": "no_bajo", "I5": "alto"}, "Crítica"),
+        # Crecimiento reciente (I6): solo amplifica cuando I4 o I5 tienen peso relevante y modera sin romper monotonía
+        ({"I4": "alto", "I5": "no_bajo", "I6": "positivo"}, "Crítica"),
+        ({"I5": "medio", "I6": "positivo"}, "Alta"),
+        ({"I5": "alto", "I6": "positivo"}, "Crítica"),
+        ({"I5": "no_alto", "I6": "negativo"}, "Baja"),
+        ({"I4": "no_bajo", "I5": "medio", "I6": "negativo"}, "Media"),
+    ],
+}
+
 FRASE = {
     "I1": {"bajo": "calentamiento bajo", "medio": "calentamiento medio", "alto": "calentamiento alto",
            "no_alto": "calentamiento bajo o medio"},
     "I3": {"bajo": "variabilidad baja", "medio": "variabilidad media", "alto": "variabilidad alta",
            "no_alto": "variabilidad baja o media"},
     "I4": {"bajo": "emisiones acumuladas bajas", "medio": "emisiones acumuladas medias",
-           "alto": "emisiones acumuladas altas", "no_alto": "emisiones acumuladas bajas o medias"},
+           "alto": "emisiones acumuladas altas", "no_alto": "emisiones acumuladas bajas o medias",
+           "no_bajo": "emisiones acumuladas medias o altas"},
     "I5": {"bajo": "participación mundial baja", "medio": "participación mundial media",
-           "alto": "participación mundial alta", "no_alto": "participación mundial baja o media"},
+           "alto": "participación mundial alta", "no_alto": "participación mundial baja o media",
+           "no_bajo": "participación mundial media o alta"},
     "I6": {"negativo": "crecimiento negativo", "estable": "crecimiento estable", "positivo": "crecimiento positivo"},
 }
-# Inicio de la frase de cada indicador en la explicación (las pruebas cuentan cuántos aparecen)
 CLAVE_EXPLICACION = {"I1": "se calienta", "I3": "varía", "I4": "ha emitido", "I5": "aporta el",
                      "I6": "sus emisiones de 2003"}
 
@@ -166,6 +205,15 @@ SALIDA = {
     "Alta": fuzz.trimf(U, [37.5, 62.5, 87.5]),
     "Crítica": fuzz.trapmf(U, [62.5, 87.5, 100, 100]),
 }
+
+
+def _plt():
+    """Carga matplotlib solo al generar figuras, evitando latencia de arranque en predecir()."""
+    os.environ.setdefault("MPLCONFIGDIR", "/tmp")
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    return plt
 
 
 def nivel(puntaje: float) -> str:
@@ -182,17 +230,53 @@ def _reglas_json(reglas: dict) -> dict:
     return {s: [{"si": a, "entonces": c, "texto": texto_regla(a, c)} for a, c in reglas[s]] for s in SISTEMAS}
 
 
+def _cuantiles_ponderados(valores: pd.Series | np.ndarray, exponente: float, cuantiles: tuple) -> dict:
+    """Cuantiles ponderados por masa w = x^exponente (exponente=0 equivale a percentiles estándar)."""
+    v = np.asarray(valores, dtype=float)
+    if exponente == 0:
+        return {f"P{q}": float(np.percentile(v, q)) for q in cuantiles}
+    orden = np.argsort(v)
+    vs = v[orden]
+    pesos = np.maximum(vs, 1e-6) ** exponente
+    acum = np.cumsum(pesos) / np.sum(pesos)
+    return {f"P{q}": float(np.interp(q / 100.0, acum, vs)) for q in cuantiles}
+
+
 # ---------------------------------------------------------------- ajuste con Train
 def ajustar(indicadores: pd.DataFrame, salida: Path = DIFUSO) -> dict:
-    """Percentiles de Train para las funciones de pertenencia y referencias para explicar."""
+    """Calcula escalas calibradas usando exclusivamente Train (cero fuga de Test) y guarda difuso.json."""
     tr = indicadores[indicadores["conjunto"] == "Train"]
-    pct = {c: {f"P{q}": float(np.percentile(tr[c], q)) for q in (20, 50, 80)} for c in ("I1", "I3", "I4", "I5")}
+
+    # Escala original equiponderada (se conserva para reproducir Exp 5 y Exp 6 en evaluar())
+    pct_equiponderados = {c: _cuantiles_ponderados(tr[c], 0, (20, 50, 80)) for c in ("I1", "I3", "I4", "I5")}
+
+    # Escala calibrada (Exp 7): alineada a riesgo en exposición y ponderada por masa en emisiones
+    pct_adaptacion = {
+        "I1": _cuantiles_ponderados(tr["I1"], 0, (30, 50, 85)),
+        "I3": _cuantiles_ponderados(tr["I3"], 0, (25, 50, 80)),
+        "I4": _cuantiles_ponderados(tr["I4"], EXPONENTE_PESO_CAPACIDAD, (20, 50, 80)),
+    }
+    pct_mitigacion = {
+        "I4": _cuantiles_ponderados(tr["I4"], EXPONENTE_PESO_EMISIONES, (20, 50, 80)),
+        "I5": _cuantiles_ponderados(tr["I5"], EXPONENTE_PESO_EMISIONES, (20, 50, 80)),
+    }
+
     params = {
-        "version_reglas": 2,
-        "percentiles_train": pct,
-        "i6_puntos_fijos": {"negativo": [-40, 0], "estable": [-30, 0, 30], "positivo": [0, 40]},
+        "version_reglas": 3,
+        "percentiles_train": {
+            "I1": pct_adaptacion["I1"],
+            "I3": pct_adaptacion["I3"],
+            "I4": pct_mitigacion["I4"],
+            "I5": pct_mitigacion["I5"],
+        },
+        "percentiles_por_sistema": {
+            "adaptacion": pct_adaptacion,
+            "mitigacion": pct_mitigacion,
+        },
+        "percentiles_equiponderados_legacy": pct_equiponderados,
+        "i6_puntos_fijos": {"negativo": [-25, 5], "estable": [-5, 25, 65], "positivo": [30, 75]},
+        "i6_puntos_fijos_legacy": {"negativo": [-40, 0], "estable": [-30, 0, 30], "positivo": [0, 40]},
         "cuartiles_linea_base": {c: [float(np.percentile(tr[c], q)) for q in (25, 50, 75)] for c in ("I1", "I5")},
-        # valores de los 201 países: solo para decir en qué percentil está un país en la explicación
         "referencia_todos": {c: sorted(float(v) for v in indicadores[c]) for c in IND},
         "reglas": _reglas_json(REGLAS),
         "umbral_no_concluyente": UMBRAL_NO_CONCLUYENTE,
@@ -206,60 +290,85 @@ def cargar_params(ruta: Path = DIFUSO) -> dict:
     return json.loads(ruta.read_text(encoding="utf-8"))
 
 
-def con_reglas_v1(params: dict) -> dict:
-    """Copia de los parámetros con la versión 1 de las reglas (para el Exp 5)."""
+def con_reglas_legacy(params: dict, version: int) -> dict:
+    """Copia parámetros con las reglas y escala equiponderada originales del equipo (Exp 5 o Exp 6)."""
     p = copy.deepcopy(params)
-    p["version_reglas"], p["reglas"] = 1, _reglas_json(REGLAS_V1)
+    p["version_reglas"] = version
+    p["percentiles_train"] = copy.deepcopy(params["percentiles_equiponderados_legacy"])
+    p.pop("percentiles_por_sistema", None)
+    p["i6_puntos_fijos"] = copy.deepcopy(params["i6_puntos_fijos_legacy"])
+    p["reglas"] = _reglas_json(REGLAS_V1 if version == 1 else REGLAS_V2)
     return p
+
+
+def con_reglas_v1(params: dict) -> dict:
+    """Compatibilidad con llamadas previas: devuelve parámetros de Exp 5 (Mamdani v1)."""
+    return con_reglas_legacy(params, 1)
 
 
 # ---------------------------------------------------------------- inferencia Mamdani
 _FUNCIONES: dict = {}
 
 
-def funciones_pertenencia(params: dict) -> dict:
-    """Arreglos de pertenencia de cada entrada (se calculan una vez por juego de percentiles).
+def _pcts_de_sistema(params: dict, sistema: str | None) -> dict:
+    if sistema and "percentiles_por_sistema" in params and sistema in params["percentiles_por_sistema"]:
+        return params["percentiles_por_sistema"][sistema]
+    return params["percentiles_train"]
 
-    El universo incluye exactamente P20, P50 y P80, así interp_membership da el valor exacto
-    aunque I4 e I5 tengan percentiles muy pequeños frente a su rango (0 a 400 y 0 a 30).
-    """
-    clave = json.dumps(params["percentiles_train"], sort_keys=True)
+
+def funciones_pertenencia(params: dict, sistema: str | None = None) -> dict:
+    """Construye y cachea funciones de pertenencia por juego de parámetros y sistema."""
+    pcts = _pcts_de_sistema(params, sistema)
+    i6_cfg = params.get("i6_puntos_fijos", {"negativo": [-40, 0], "estable": [-30, 0, 30], "positivo": [0, 40]})
+    clave = json.dumps({"pcts": pcts, "i6": i6_cfg}, sort_keys=True)
     if clave not in _FUNCIONES:
         f = {}
-        for c, p in params["percentiles_train"].items():
+        for c, p in pcts.items():
             lo, hi = RANGOS[c]
-            p20, p50, p80 = p["P20"], p["P50"], p["P80"]
-            u = np.unique(np.concatenate([np.linspace(lo, hi, 4001), [p20, p50, p80]]))
-            f[c] = (u, {"bajo": fuzz.trapmf(u, [lo, lo, p20, p50]), "medio": fuzz.trimf(u, [p20, p50, p80]),
-                        "alto": fuzz.trapmf(u, [p50, p80, hi, hi])})
+            p_lo, p_mid, p_hi = sorted(float(v) for v in p.values())
+            u = np.unique(np.concatenate([np.linspace(lo, hi, 4001), [p_lo, p_mid, p_hi]]))
+            f[c] = (u, {
+                "bajo": fuzz.trapmf(u, [lo, lo, p_lo, p_mid]),
+                "medio": fuzz.trimf(u, [p_lo, p_mid, p_hi]),
+                "alto": fuzz.trapmf(u, [p_mid, p_hi, hi, hi]),
+            })
         lo, hi = RANGOS["I6"]
-        u = np.unique(np.concatenate([np.linspace(lo, hi, 6001), [-40, -30, 0, 30, 40]]))
-        f["I6"] = (u, {"negativo": fuzz.trapmf(u, [lo, lo, -40, 0]), "estable": fuzz.trimf(u, [-30, 0, 30]),
-                       "positivo": fuzz.trapmf(u, [0, 40, hi, hi])})
+        n_a, n_b = i6_cfg["negativo"]
+        e_a, e_b, e_c = i6_cfg["estable"]
+        p_a, p_b = i6_cfg["positivo"]
+        puntos_i6 = sorted({n_a, n_b, e_a, e_b, e_c, p_a, p_b})
+        u = np.unique(np.concatenate([np.linspace(lo, hi, 6001), puntos_i6]))
+        f["I6"] = (u, {
+            "negativo": fuzz.trapmf(u, [lo, lo, n_a, n_b]),
+            "estable": fuzz.trimf(u, [e_a, e_b, e_c]),
+            "positivo": fuzz.trapmf(u, [p_a, p_b, hi, hi]),
+        })
         _FUNCIONES[clave] = f
     return _FUNCIONES[clave]
 
 
-def fuzzificar(valores: dict, params: dict) -> dict:
+def fuzzificar(valores: dict, params: dict, sistema: str | None = None) -> dict:
     mu = {}
-    for c, (u, conjuntos) in funciones_pertenencia(params).items():
+    for c, (u, conjuntos) in funciones_pertenencia(params, sistema).items():
         lo, hi = RANGOS[c]
         x = float(np.clip(valores[c], lo, hi))
         mu[c] = {t: float(fuzz.interp_membership(u, m, x)) for t, m in conjuntos.items()}
         if "alto" in mu[c]:
-            mu[c]["no_alto"] = float(fuzz.fuzzy_not(np.array([mu[c]["alto"]]))[0])   # 1 - alto = bajo + medio
+            mu[c]["no_alto"] = float(fuzz.fuzzy_not(np.array([mu[c]["alto"]]))[0])
+        if "bajo" in mu[c]:
+            mu[c]["no_bajo"] = float(fuzz.fuzzy_not(np.array([mu[c]["bajo"]]))[0])
     return mu
 
 
 def inferir(valores: dict, sistema: str, params: dict) -> dict:
     """Puntaje (0 a 100), nivel, fuerza de la regla dominante, reglas activadas y conjunto agregado."""
-    mu = fuzzificar(valores, params)
+    mu = fuzzificar(valores, params, sistema)
     agregado = np.zeros_like(U)
     activas = []
     for regla in params["reglas"][sistema]:
-        fuerza = min(mu[c][t] for c, t in regla["si"].items())      # Y = mínimo
+        fuerza = min(mu[c][t] for c, t in regla["si"].items())
         if fuerza > 0:
-            agregado = np.fmax(agregado, np.fmin(fuerza, SALIDA[regla["entonces"]]))  # agregación = máximo
+            agregado = np.fmax(agregado, np.fmin(fuerza, SALIDA[regla["entonces"]]))
             activas.append({"regla": regla["texto"], "fuerza": round(fuerza, 3), "si": regla["si"]})
     activas.sort(key=lambda r: r["fuerza"], reverse=True)
     puntaje = float(fuzz.defuzz(U, agregado, "centroid")) if agregado.any() else 0.0
@@ -310,18 +419,13 @@ def linea_base(valores: dict, sistema: str, params: dict) -> str:
 
 # ---------------------------------------------------------------- verificaciones sin etiquetas
 def _valores_prueba(c: str, params: dict, puntos: int) -> np.ndarray:
-    """Percentiles de los 201 países, puntos equidistantes en su rango y los extremos del contrato."""
     ref = params["referencia_todos"][c]
     return np.unique(np.concatenate([np.quantile(ref, np.linspace(0, 1, puntos)),
                                      np.linspace(ref[0], ref[-1], puntos), RANGOS[c]]))
 
 
 def cobertura(params: dict, puntos: int = 10) -> dict:
-    """Malla de 10 x 10 x 10 = 1,000 combinaciones por sistema: fuerza dominante mínima.
-
-    Los 10 valores de cada eje son los percentiles 0, 11, 22, ..., 100 de los 201 países
-    (no puntos equidistantes, porque I4 e I5 están muy sesgados y casi todo caería en "alto").
-    """
+    """Malla de 10 x 10 x 10 = 1,000 combinaciones por sistema: fuerza dominante mínima."""
     res = {}
     for s in SISTEMAS:
         ejes = [np.quantile(params["referencia_todos"][c], np.linspace(0, 1, puntos)) for c in ENTRADAS[s]]
@@ -340,12 +444,7 @@ def cobertura(params: dict, puntos: int = 10) -> dict:
 
 
 def coherencia(indicadores: pd.DataFrame, params: dict, puntos: int = 21, tolerancia: float = 0.5) -> dict:
-    """Más riesgo nunca debe bajar la prioridad.
-
-    Para cada país, recorre cada entrada de su sistema (las otras 2 fijas) y cuenta los pasos
-    en que el puntaje retrocede más de medio punto (la salida está discretizada cada 0.1)
-    y los que además bajan de nivel. En adaptación, I4 alto debe bajar la prioridad.
-    """
+    """Verifica monotonía: más riesgo nunca debe bajar la prioridad ni cambiar de nivel hacia abajo."""
     res = {}
     for s in SISTEMAS:
         pasos = retrocesos = bajadas = 0
@@ -373,6 +472,7 @@ def coherencia(indicadores: pd.DataFrame, params: dict, puntos: int = 21, tolera
 
 # ---------------------------------------------------------------- figuras
 def _matrices(pares: dict, titulo: str, archivo: Path, eje_y: str, eje_x: str) -> None:
+    plt = _plt()
     fig, axs = plt.subplots(1, len(pares), figsize=(5.2 * len(pares), 4.4))
     for ax, (nombre, (y_ref, y_mod)) in zip(np.atleast_1d(axs), pares.items()):
         m = confusion_matrix(y_ref, y_mod, labels=NIVELES)
@@ -393,14 +493,18 @@ def _matrices(pares: dict, titulo: str, archivo: Path, eje_y: str, eje_x: str) -
 
 
 def figura_pertenencia(params: dict, archivo: Path) -> None:
-    """Funciones de pertenencia de las 5 entradas y de la salida."""
-    titulos = {"I1": "I1 Calentamiento (°C por década)", "I3": "I3 Variabilidad (°C)",
-               "I4": "I4 Emisiones acumuladas (Gt CO₂, escala log)", "I5": "I5 Participación mundial (%, escala log)",
-               "I6": "I6 Crecimiento de emisiones (%)"}
+    """Funciones de pertenencia calibradas (Exp 7) de las entradas y la salida."""
+    plt = _plt()
+    titulos = {"I1": "I1 Calentamiento (°C/década, Adaptación)", "I3": "I3 Variabilidad (°C, Adaptación)",
+               "I4": "I4 Emisiones acumuladas (Gt CO₂, Mitigación)", "I5": "I5 Participación mundial (%, Mitigación)",
+               "I6": "I6 Crecimiento de emisiones (%, Mitigación)"}
     colores = ["#2a9d8f", "#e9c46a", "#e76f51"]
     fig, axs = plt.subplots(2, 3, figsize=(14, 7))
+    f_ada = funciones_pertenencia(params, "adaptacion")
+    f_mit = funciones_pertenencia(params, "mitigacion")
+    mapa_f = {"I1": f_ada["I1"], "I3": f_ada["I3"], "I4": f_mit["I4"], "I5": f_mit["I5"], "I6": f_mit["I6"]}
     for ax, c in zip(axs.flat, ["I1", "I3", "I4", "I5", "I6"]):
-        u, conjuntos = funciones_pertenencia(params)[c]
+        u, conjuntos = mapa_f[c]
         ref = params["referencia_todos"][c]
         if c in ("I4", "I5"):
             x = np.logspace(-4, np.log10(RANGOS[c][1]), 1200)
@@ -423,7 +527,7 @@ def figura_pertenencia(params: dict, archivo: Path) -> None:
         ax.axvline(corte, color="#999", ls=":", lw=1)
     ax.set_title("Salida: prioridad (0 a 100)", fontsize=10)
     ax.legend(fontsize=8, loc="center right")
-    fig.suptitle("Funciones de pertenencia (percentiles de Train; las marcas abajo son los 201 países)")
+    fig.suptitle("Funciones de pertenencia calibradas (solo Train; las marcas abajo son los 201 países)")
     fig.tight_layout()
     archivo.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(archivo, dpi=150)
@@ -431,7 +535,8 @@ def figura_pertenencia(params: dict, archivo: Path) -> None:
 
 
 def figura_ejemplo(valores: dict, nombre_pais: str, params: dict, archivo: Path) -> None:
-    """Conjunto agregado y centroide de un país en los 2 sistemas (gráfica G5 del tablero)."""
+    """Conjunto agregado y centroide de un país en los 2 sistemas."""
+    plt = _plt()
     fig, axs = plt.subplots(1, 2, figsize=(12, 4))
     for ax, s in zip(axs, SISTEMAS):
         r = inferir(valores, s, params)
@@ -443,13 +548,13 @@ def figura_ejemplo(valores: dict, nombre_pais: str, params: dict, archivo: Path)
         ax.set_xlabel("Prioridad (0 a 100)")
         ax.set_ylim(0, 1.05)
         ax.legend(fontsize=8, loc="upper left")
-    fig.suptitle(f"Inferencia Mamdani para {nombre_pais}")
+    fig.suptitle(f"Inferencia Mamdani calibrada (Exp 7) para {nombre_pais}")
     fig.tight_layout()
     fig.savefig(archivo, dpi=150)
     plt.close(fig)
 
 
-# ---------------------------------------------------------------- evaluación (Exp 4 a 6)
+# ---------------------------------------------------------------- evaluación (Exp 4 a 7)
 def leer_experto(ruta: Path = NIVELES_EXPERTO) -> pd.DataFrame | None:
     """Niveles del docente; devuelve None mientras no haya ninguna fila completa."""
     if not ruta.exists():
@@ -464,7 +569,7 @@ def leer_experto(ruta: Path = NIVELES_EXPERTO) -> pd.DataFrame | None:
     return e[completos].reset_index(drop=True) if completos.any() else None
 
 
-def _metricas_experto(experto: pd.DataFrame, paises_test: list, niveles: dict) -> dict:
+def _metricas_experto(experto: pd.DataFrame, paises_test: list, niveles: dict, puntajes: dict) -> dict:
     pos = {p: i for i, p in enumerate(paises_test)}
     faltan = set(experto["pais"]) - set(pos)
     if faltan:
@@ -473,10 +578,23 @@ def _metricas_experto(experto: pd.DataFrame, paises_test: list, niveles: dict) -
     for s in SISTEMAS:
         y_true = experto[f"nivel_{s}"].tolist()
         y_pred = [niveles[s][pos[p]] for p in experto["pais"]]
-        res[s] = {"concordancia": float(np.mean(np.array(y_true) == np.array(y_pred))),
-                  "aciertos": int(sum(a == b for a, b in zip(y_true, y_pred))), "n": len(y_true),
-                  "f1_macro": float(f1_score(y_true, y_pred, labels=NIVELES, average="macro", zero_division=0)),
-                  "y_true": y_true, "y_pred": y_pred}
+        scores = [puntajes[s][pos[p]] for p in experto["pais"]]
+        idx_t = [NIVELES.index(y) for y in y_true]
+        idx_p = [NIVELES.index(y) for y in y_pred]
+        y_alta = [int(i >= 2) for i in idx_t]
+        auc_alta = float(roc_auc_score(y_alta, scores)) if len(set(y_alta)) > 1 else None
+        res[s] = {
+            "concordancia": float(np.mean(np.array(y_true) == np.array(y_pred))),
+            "concordancia_pm1": float(np.mean(np.abs(np.array(idx_t) - np.array(idx_p)) <= 1)),
+            "sesgo_promedio": float(np.mean(np.array(idx_p) - np.array(idx_t))),
+            "aciertos": int(sum(a == b for a, b in zip(y_true, y_pred))),
+            "n": len(y_true),
+            "f1_macro": float(f1_score(y_true, y_pred, labels=NIVELES, average="macro", zero_division=0)),
+            "kappa_cuadratica": float(cohen_kappa_score(y_true, y_pred, labels=NIVELES, weights="quadratic")),
+            "auc_roc_alta": auc_alta,
+            "y_true": y_true,
+            "y_pred": y_pred,
+        }
     return res
 
 
@@ -484,37 +602,51 @@ def evaluar(indicadores: pd.DataFrame, params: dict, fig_dir: Path = FIGURAS,
             ruta_experto: Path = NIVELES_EXPERTO) -> dict:
     te = indicadores[indicadores["conjunto"] == "Test"].reset_index(drop=True)
     paises = te["pais"].tolist()
-    versiones = {"Exp 5": con_reglas_v1(params), "Exp 6": params}
+    versiones = {
+        "Exp 5": con_reglas_legacy(params, 1),
+        "Exp 6": con_reglas_legacy(params, 2),
+        "Exp 7": params,
+    }
     experto = leer_experto(ruta_experto)
 
     # ---- Exp 4: regla de cuartiles
     t = time.perf_counter()
-    niveles = {"Exp 4": {s: [linea_base(f.to_dict(), s, params) for _, f in te.iterrows()] for s in SISTEMAS}}
+    niv_exp4 = {s: [linea_base(f.to_dict(), s, params) for _, f in te.iterrows()] for s in SISTEMAS}
+    pts_exp4 = {s: [NIVELES.index(n) * 25.0 + 12.5 for n in niv_exp4[s]] for s in SISTEMAS}
     tiempos = {"Exp 4": (time.perf_counter() - t) * 1000 / (2 * len(te))}
+    niveles = {"Exp 4": niv_exp4}
+    puntajes = {"Exp 4": pts_exp4}
     verif = {"Exp 4": {"explicacion_2_indicadores": 0}}
 
-    # ---- Exp 5 y 6: Mamdani con cada versión de reglas
+    # ---- Exp 5 (v1 original), Exp 6 (v2 equipo) y Exp 7 (v3 calibrado)
     for exp, p in versiones.items():
         t = time.perf_counter()
         res = {s: [inferir(f.to_dict(), s, p) for _, f in te.iterrows()] for s in SISTEMAS}
         tiempos[exp] = (time.perf_counter() - t) * 1000 / (2 * len(te))
         niveles[exp] = {s: [r["nivel"] for r in res[s]] for s in SISTEMAS}
+        puntajes[exp] = {s: [r["puntaje"] for r in res[s]] for s in SISTEMAS}
         explic = sum(sum(k in explicar(f.to_dict(), s, r, p) for k in CLAVE_EXPLICACION.values()) >= 2
                      for s in SISTEMAS for (_, f), r in zip(te.iterrows(), res[s]))
-        verif[exp] = {"cobertura": cobertura(p), "coherencia": coherencia(te, p),
-                      "explicacion_2_indicadores": int(explic),
-                      "acuerdo_con_exp4": {s: float(np.mean(np.array(niveles[exp][s]) == np.array(niveles["Exp 4"][s])))
-                                           for s in SISTEMAS},
-                      "cambios_de_nivel_vs_exp5": None}
-    verif["Exp 6"]["cambios_de_nivel_vs_exp5"] = {
+        verif[exp] = {
+            "cobertura": cobertura(p),
+            "coherencia": coherencia(te, p),
+            "explicacion_2_indicadores": int(explic),
+            "acuerdo_con_exp4": {s: float(np.mean(np.array(niveles[exp][s]) == np.array(niveles["Exp 4"][s])))
+                                 for s in SISTEMAS},
+            "cambios_de_nivel_vs_anterior": None,
+        }
+    verif["Exp 6"]["cambios_de_nivel_vs_anterior"] = {
         s: int(sum(a != b for a, b in zip(niveles["Exp 5"][s], niveles["Exp 6"][s]))) for s in SISTEMAS}
+    verif["Exp 7"]["cambios_de_nivel_vs_anterior"] = {
+        s: int(sum(a != b for a, b in zip(niveles["Exp 6"][s], niveles["Exp 7"][s]))) for s in SISTEMAS}
 
-    metricas = {exp: _metricas_experto(experto, paises, niveles[exp]) for exp in niveles} if experto is not None else {}
+    metricas = {exp: _metricas_experto(experto, paises, niveles[exp], puntajes[exp])
+                for exp in niveles} if experto is not None else {}
 
     # ---- figuras
-    _matrices({NOMBRE[s]: (niveles["Exp 4"][s], niveles["Exp 6"][s]) for s in SISTEMAS},
-              "Mamdani (Exp 6) frente a la regla de cuartiles (Exp 4), 41 países de Test",
-              fig_dir / "matriz_mamdani_vs_cuartiles.png", "Regla de cuartiles (Exp 4)", "Mamdani (Exp 6)")
+    _matrices({NOMBRE[s]: (niveles["Exp 4"][s], niveles["Exp 7"][s]) for s in SISTEMAS},
+              "Mamdani calibrado (Exp 7) frente a la regla de cuartiles (Exp 4), 41 países de Test",
+              fig_dir / "matriz_mamdani_vs_cuartiles.png", "Regla de cuartiles (Exp 4)", "Mamdani (Exp 7)")
     for exp, m in metricas.items():
         _matrices({NOMBRE[s]: (m[s]["y_true"], m[s]["y_pred"]) for s in SISTEMAS},
                   f"Matriz de confusión contra el experto ({exp}, {len(experto)} países de Test)",
@@ -527,11 +659,13 @@ def evaluar(indicadores: pd.DataFrame, params: dict, fig_dir: Path = FIGURAS,
     # ---- filas de la matriz de experimentación
     descripcion = {
         "Exp 4": ("Exp 4: Baseline", "Regla de cuartiles (1 indicador)",
-                  "Adaptación por I1, mitigación por I5; cortes P25, P50 y P75 de Train"),
-        "Exp 5": ("Exp 5: Alternativo", "Lógica difusa Mamdani, reglas versión 1",
-                  "15 reglas por sistema (malla 3 x 3 + 6 ajustes); P20, P50 y P80 de Train; mínimo, máximo y centroide"),
-        "Exp 6": ("Exp 6: Candidato", "Lógica difusa Mamdani, reglas versión 2",
-                  "12 reglas por sistema (malla 3 x 2 con el término no alto + 6 ajustes); mismas funciones y operadores"),
+                  "Adaptación por I1, mitigación por I5; cortes P25, P50 y P75 equiponderados de Train"),
+        "Exp 5": ("Exp 5: Alternativo", "Lógica difusa Mamdani, reglas v1 (equipo)",
+                  "15 reglas por sistema; percentiles P20/P50/P80 equiponderados; I6 [-40..40]"),
+        "Exp 6": ("Exp 6: Anterior del equipo", "Lógica difusa Mamdani, reglas v2 (equipo)",
+                  "12 reglas por sistema con no_alto; mismos percentiles equiponderados de Train"),
+        "Exp 7": ("Exp 7: Candidato calibrado", "Lógica difusa Mamdani, reglas v3 (calibrada)",
+                  "Cuantiles ponderados por masa en Train (I4/I5 w=x^0.35 en Mit.; I4 w=x^0.20 en Ada.); reglas monótonas"),
     }
     filas = []
     for exp, (variante, modelo, hiper) in descripcion.items():
@@ -540,7 +674,9 @@ def evaluar(indicadores: pd.DataFrame, params: dict, fig_dir: Path = FIGURAS,
             m = metricas[exp]
             principal = "Concordancia con experto: " + ", ".join(
                 f"{NOMBRE[s][:3]}. {m[s]['aciertos']}/{m[s]['n']} ({m[s]['concordancia']:.0%})" for s in SISTEMAS)
-            secundaria = "F1 macro: " + ", ".join(f"{NOMBRE[s][:3]}. {m[s]['f1_macro']:.2f}" for s in SISTEMAS)
+            secundaria = "F1 macro / Kappa / AUC(>=Alta): " + ", ".join(
+                f"{NOMBRE[s][:3]}. {m[s]['f1_macro']:.2f} / {m[s]['kappa_cuadratica']:.2f} / "
+                f"{m[s]['auc_roc_alta']:.3f}" for s in SISTEMAS)
         else:
             principal, secundaria = "Concordancia con experto: pendiente", "F1 macro: pendiente"
         if exp == "Exp 4":
@@ -550,7 +686,7 @@ def evaluar(indicadores: pd.DataFrame, params: dict, fig_dir: Path = FIGURAS,
                 ok = all(metricas[exp][s]["concordancia"] >= META_CONCORDANCIA for s in SISTEMAS)
                 diag = "Línea base: " + ("supera" if ok else "no alcanza") + " la meta del 80 %"
             else:
-                diag = "Línea base: sirve de referencia para Exp 5 y 6"
+                diag = "Línea base: sirve de referencia para Exp 5 a 7"
         else:
             co = v["coherencia"]
             retro = sum(co[s]["retrocesos"] for s in SISTEMAS)
@@ -565,25 +701,29 @@ def evaluar(indicadores: pd.DataFrame, params: dict, fig_dir: Path = FIGURAS,
             incoherente = bajadas > 0 and peor >= 2
             if exp in metricas:
                 ok = all(metricas[exp][s]["concordancia"] >= META_CONCORDANCIA for s in SISTEMAS)
-                diag = ("Óptimo: coincide con el experto en al menos 80 % de los países" if ok else
-                        "Subajuste: las reglas no capturan el criterio del experto (menos de 80 %)")
+                diag = ("Óptimo: cumple meta >= 80 % en ambos sistemas y coherencia sin bajadas de nivel" if ok else
+                        "Subajuste: las reglas/escalas no capturan el criterio del experto (< 80 %)")
                 if incoherente:
                     diag += "; además, más riesgo puede bajar la prioridad"
             elif incoherente:
-                diag = "Descartado: más riesgo puede bajar la prioridad (reglas que contradicen la malla)"
+                diag = "Descartado: más riesgo puede bajar la prioridad"
             else:
                 diag = "Coherente; concordancia con el experto pendiente"
         filas.append({
             "experimento": variante, "modelo": modelo, "hiperparametros": hiper,
             "metrica_principal": principal, "metrica_secundaria": secundaria,
-            "metrica_train": "No aplica: no se entrena, solo se calculan percentiles de Train",
+            "metrica_train": "Solo percentiles/cuantiles de Train (cero ajuste sobre Test)",
             "tiempo": f"< 0.01 s / {tiempos[exp]:.2f} ms por país", "diagnostico": diag, "verificaciones": extra,
             "tiempo_entrenamiento_s": 0.0, "tiempo_inferencia_ms": round(tiempos[exp], 3),
         })
-    return {"experimentos": filas, "verificaciones": verif, "experto_disponible": experto is not None,
-            "metricas_experto": {e: {s: {k: v for k, v in d.items() if k not in ("y_true", "y_pred")}
-                                     for s, d in m.items()} for e, m in metricas.items()},
-            "niveles_test": {p: {s: niveles["Exp 6"][s][i] for s in SISTEMAS} for i, p in enumerate(paises)}}
+    return {
+        "experimentos": filas,
+        "verificaciones": verif,
+        "experto_disponible": experto is not None,
+        "metricas_experto": {e: {s: {k: val for k, val in d.items() if k not in ("y_true", "y_pred")}
+                                 for s, d in m.items()} for e, m in metricas.items()},
+        "niveles_test": {p: {s: niveles["Exp 7"][s][i] for s in SISTEMAS} for i, p in enumerate(paises)},
+    }
 
 
 if __name__ == "__main__":

@@ -45,7 +45,17 @@ RANGOS = {"I1": (0.00, 0.60), "I2": (-1.00, 2.50), "I3": (0.00, 1.20),
           "I4": (0.0, 400.0), "I5": (0.00, 30.00), "I6": (-100.0, 500.0)}
 SISTEMAS = ("adaptacion", "mitigacion")
 
-# ---------------------------------------------------------------- decisiones de la Entrega 2 (no cambiar sin avisar al equipo)
+# ---------------------------------------------------------------- decisiones de la Entrega 2 y calibración corregida (Exp 7)
+# Nota de diagnóstico:
+#   - Etapa 1 (agrupamiento): PCA (2 comp.) + K-means (k=4, Exp 2) supera las metas de silueta
+#     (0.407 en Train >= 0.35; 0.382 en Test >= 0.30) y corrige la colinealidad de 6D (Exp 1: 0.318).
+#   - Etapa 2 (difuso): las versiones originales (Exp 5 y Exp 6) fallaron la meta OE3 (>= 80 %)
+#     en Mitigación (4/20 = 20 %, F1 = 0.23) y Adaptación (13/20 = 65 %, F1 = 0.62) porque:
+#     (1) usaban percentiles equiponderados por país en I4/I5 (ley de potencias), inflando emisores
+#         marginales (< 0.1 % mundial) como "medio"/"alto", y
+#     (2) tenían reglas que promocionaban emisores marginales con I6 positivo o rompían monotonía.
+#   - Solución (Exp 7): cuantiles ponderados por masa de emisiones solo sobre Train (w = x^p) y
+#     reglas estrictamente monótonas sin tocar el conjunto Test ni las etiquetas del experto.
 SEMILLA = 42
 TEST_SIZE = 0.20                 # 160 países en Train y 41 en Test
 ULTIMO_ANIO = 2012
@@ -58,6 +68,8 @@ UMBRAL_NO_CONCLUYENTE = 0.30     # fuerza máxima de las reglas por debajo de es
 META_CONCORDANCIA = 0.80         # OE3: al menos 16 de 20 países por sistema
 META_SILUETA_TRAIN = 0.35        # OE2
 META_SILUETA_TEST = 0.30
+EXPONENTE_PESO_CAPACIDAD = 0.20  # peso x^0.20 para capacidad industrial histórica (I4 en Adaptación)
+EXPONENTE_PESO_EMISIONES = 0.35  # peso x^0.35 para masa de emisiones (I4 e I5 en Mitigación)
 
 
 def asegurar_carpetas() -> None:

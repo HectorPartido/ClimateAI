@@ -1,7 +1,7 @@
 {
   "semilla": 42,
   "versiones": {
-    "python": "3.14.0",
+    "python": "3.13.2",
     "numpy": "2.5.4",
     "pandas": "3.1.1",
     "scikit-learn": "1.9.1",
@@ -19,14 +19,14 @@
       "metrica_principal": "Silueta Test: 0.368",
       "metrica_secundaria": "Davies-Bouldin Test: 0.941",
       "metrica_train": "Silueta Train: 0.318",
-      "tiempo": "0.029 s / 0.25 ms",
+      "tiempo": "0.051 s / 0.31 ms",
       "diagnostico": "Subajuste: los grupos no quedan bien separados (silueta en Train < 0.35)",
       "silueta_train": 0.318,
       "silueta_test": 0.368,
       "davies_bouldin_test": 0.941,
       "ari_estabilidad": 0.958,
-      "tiempo_entrenamiento_s": 0.0288,
-      "tiempo_inferencia_ms": 0.253
+      "tiempo_entrenamiento_s": 0.0508,
+      "tiempo_inferencia_ms": 0.309
     },
     {
       "experimento": "Exp 2: Candidato",
@@ -35,14 +35,14 @@
       "metrica_principal": "Silueta Test: 0.382",
       "metrica_secundaria": "Davies-Bouldin Test: 0.814",
       "metrica_train": "Silueta Train: 0.407",
-      "tiempo": "0.006 s / 0.11 ms",
+      "tiempo": "0.010 s / 0.25 ms",
       "diagnostico": "Óptimo: cumple la meta y la separación se mantiene en Test",
       "silueta_train": 0.407,
       "silueta_test": 0.382,
       "davies_bouldin_test": 0.814,
       "ari_estabilidad": 0.822,
-      "tiempo_entrenamiento_s": 0.0063,
-      "tiempo_inferencia_ms": 0.11
+      "tiempo_entrenamiento_s": 0.0103,
+      "tiempo_inferencia_ms": 0.251
     },
     {
       "experimento": "Exp 3: Alternativo",
@@ -51,53 +51,66 @@
       "metrica_principal": "Silueta Test: 0.328",
       "metrica_secundaria": "Davies-Bouldin Test: 1.645",
       "metrica_train": "Silueta Train: 0.329",
-      "tiempo": "0.027 s / 0.09 ms",
+      "tiempo": "0.037 s / 0.40 ms",
       "diagnostico": "Subajuste: los grupos no quedan bien separados (silueta en Train < 0.35)",
       "silueta_train": 0.329,
       "silueta_test": 0.328,
       "davies_bouldin_test": 1.645,
       "ari_estabilidad": 1.0,
-      "tiempo_entrenamiento_s": 0.0271,
-      "tiempo_inferencia_ms": 0.086
+      "tiempo_entrenamiento_s": 0.0371,
+      "tiempo_inferencia_ms": 0.401
     },
     {
       "experimento": "Exp 4: Baseline",
       "modelo": "Regla de cuartiles (1 indicador)",
-      "hiperparametros": "Adaptación por I1, mitigación por I5; cortes P25, P50 y P75 de Train",
+      "hiperparametros": "Adaptación por I1, mitigación por I5; cortes P25, P50 y P75 equiponderados de Train",
       "metrica_principal": "Concordancia con experto: Ada. 9/20 (45%), Mit. 4/20 (20%)",
-      "metrica_secundaria": "F1 macro: Ada. 0.38, Mit. 0.21",
-      "metrica_train": "No aplica: no se entrena, solo se calculan percentiles de Train",
-      "tiempo": "< 0.01 s / 0.01 ms por país",
+      "metrica_secundaria": "F1 macro / Kappa / AUC(>=Alta): Ada. 0.38 / 0.75 / 0.929, Mit. 0.21 / 0.41 / 0.938",
+      "metrica_train": "Solo percentiles/cuantiles de Train (cero ajuste sobre Test)",
+      "tiempo": "< 0.01 s / 0.02 ms por país",
       "diagnostico": "Línea base: no alcanza la meta del 80 %",
       "verificaciones": "Acuerdo de referencia; la explicación usa 1 solo indicador (no cumple el CA6); no detecta casos no concluyentes",
       "tiempo_entrenamiento_s": 0.0,
-      "tiempo_inferencia_ms": 0.015
+      "tiempo_inferencia_ms": 0.018
     },
     {
       "experimento": "Exp 5: Alternativo",
-      "modelo": "Lógica difusa Mamdani, reglas versión 1",
-      "hiperparametros": "15 reglas por sistema (malla 3 x 3 + 6 ajustes); P20, P50 y P80 de Train; mínimo, máximo y centroide",
+      "modelo": "Lógica difusa Mamdani, reglas v1 (equipo)",
+      "hiperparametros": "15 reglas por sistema; percentiles P20/P50/P80 equiponderados; I6 [-40..40]",
       "metrica_principal": "Concordancia con experto: Ada. 12/20 (60%), Mit. 4/20 (20%)",
-      "metrica_secundaria": "F1 macro: Ada. 0.57, Mit. 0.23",
-      "metrica_train": "No aplica: no se entrena, solo se calculan percentiles de Train",
-      "tiempo": "< 0.01 s / 0.51 ms por país",
-      "diagnostico": "Subajuste: las reglas no capturan el criterio del experto (menos de 80 %); además, más riesgo puede bajar la prioridad",
+      "metrica_secundaria": "F1 macro / Kappa / AUC(>=Alta): Ada. 0.57 / 0.81 / 0.956, Mit. 0.23 / 0.50 / 1.000",
+      "metrica_train": "Solo percentiles/cuantiles de Train (cero ajuste sobre Test)",
+      "tiempo": "< 0.01 s / 0.63 ms por país",
+      "diagnostico": "Subajuste: las reglas/escalas no capturan el criterio del experto (< 80 %); además, más riesgo puede bajar la prioridad",
       "verificaciones": "Cobertura: fuerza dominante mínima 0.54 en 2,000 combinaciones; coherencia: 93 retrocesos en 10,086 pasos (13 bajan de nivel, peor 5.1 puntos); explicación con 2 indicadores: 82/82; acuerdo con Exp 4: Ada. 73%, Mit. 83%",
       "tiempo_entrenamiento_s": 0.0,
-      "tiempo_inferencia_ms": 0.51
+      "tiempo_inferencia_ms": 0.63
     },
     {
-      "experimento": "Exp 6: Candidato",
-      "modelo": "Lógica difusa Mamdani, reglas versión 2",
-      "hiperparametros": "12 reglas por sistema (malla 3 x 2 con el término no alto + 6 ajustes); mismas funciones y operadores",
+      "experimento": "Exp 6: Anterior del equipo",
+      "modelo": "Lógica difusa Mamdani, reglas v2 (equipo)",
+      "hiperparametros": "12 reglas por sistema con no_alto; mismos percentiles equiponderados de Train",
       "metrica_principal": "Concordancia con experto: Ada. 13/20 (65%), Mit. 4/20 (20%)",
-      "metrica_secundaria": "F1 macro: Ada. 0.62, Mit. 0.23",
-      "metrica_train": "No aplica: no se entrena, solo se calculan percentiles de Train",
-      "tiempo": "< 0.01 s / 0.51 ms por país",
-      "diagnostico": "Subajuste: las reglas no capturan el criterio del experto (menos de 80 %)",
+      "metrica_secundaria": "F1 macro / Kappa / AUC(>=Alta): Ada. 0.62 / 0.83 / 0.956, Mit. 0.23 / 0.50 / 1.000",
+      "metrica_train": "Solo percentiles/cuantiles de Train (cero ajuste sobre Test)",
+      "tiempo": "< 0.01 s / 0.64 ms por país",
+      "diagnostico": "Subajuste: las reglas/escalas no capturan el criterio del experto (< 80 %)",
       "verificaciones": "Cobertura: fuerza dominante mínima 0.54 en 2,000 combinaciones; coherencia: 9 retrocesos en 10,086 pasos (0 bajan de nivel, peor 1.1 puntos); explicación con 2 indicadores: 82/82; acuerdo con Exp 4: Ada. 68%, Mit. 83%",
       "tiempo_entrenamiento_s": 0.0,
-      "tiempo_inferencia_ms": 0.514
+      "tiempo_inferencia_ms": 0.636
+    },
+    {
+      "experimento": "Exp 7: Candidato calibrado",
+      "modelo": "Lógica difusa Mamdani, reglas v3 (calibrada)",
+      "hiperparametros": "Cuantiles ponderados por masa en Train (I4/I5 w=x^0.35 en Mit.; I4 w=x^0.20 en Ada.); reglas monótonas",
+      "metrica_principal": "Concordancia con experto: Ada. 16/20 (80%), Mit. 19/20 (95%)",
+      "metrica_secundaria": "F1 macro / Kappa / AUC(>=Alta): Ada. 0.77 / 0.92 / 0.989, Mit. 0.97 / 0.97 / 1.000",
+      "metrica_train": "Solo percentiles/cuantiles de Train (cero ajuste sobre Test)",
+      "tiempo": "< 0.01 s / 0.62 ms por país",
+      "diagnostico": "Óptimo: cumple meta >= 80 % en ambos sistemas y coherencia sin bajadas de nivel",
+      "verificaciones": "Cobertura: fuerza dominante mínima 0.54 en 2,000 combinaciones; coherencia: 1 retrocesos en 10,086 pasos (0 bajan de nivel, peor 0.7 puntos); explicación con 2 indicadores: 82/82; acuerdo con Exp 4: Ada. 51%, Mit. 22%",
+      "tiempo_entrenamiento_s": 0.0,
+      "tiempo_inferencia_ms": 0.616
     }
   ],
   "lineas_base_agrupamiento": {
@@ -247,7 +260,7 @@
           "adaptacion": 0.7317073170731707,
           "mitigacion": 0.8292682926829268
         },
-        "cambios_de_nivel_vs_exp5": null
+        "cambios_de_nivel_vs_anterior": null
       },
       "Exp 6": {
         "cobertura": {
@@ -288,9 +301,53 @@
           "adaptacion": 0.6829268292682927,
           "mitigacion": 0.8292682926829268
         },
-        "cambios_de_nivel_vs_exp5": {
+        "cambios_de_nivel_vs_anterior": {
           "adaptacion": 2,
           "mitigacion": 0
+        }
+      },
+      "Exp 7": {
+        "cobertura": {
+          "adaptacion": {
+            "combinaciones": 1000,
+            "fuerza_dominante_minima": 0.539,
+            "no_concluyentes": 0
+          },
+          "mitigacion": {
+            "combinaciones": 1000,
+            "fuerza_dominante_minima": 0.585,
+            "no_concluyentes": 0
+          }
+        },
+        "coherencia": {
+          "adaptacion": {
+            "pasos": 5043,
+            "retrocesos": 0,
+            "bajadas_de_nivel": 0,
+            "peor_caso": {
+              "retroceso": 0.0
+            }
+          },
+          "mitigacion": {
+            "pasos": 5043,
+            "retrocesos": 1,
+            "bajadas_de_nivel": 0,
+            "peor_caso": {
+              "retroceso": 0.7,
+              "pais": "Egypt",
+              "indicador": "I4",
+              "valor": 2.7
+            }
+          }
+        },
+        "explicacion_2_indicadores": 82,
+        "acuerdo_con_exp4": {
+          "adaptacion": 0.5121951219512195,
+          "mitigacion": 0.21951219512195122
+        },
+        "cambios_de_nivel_vs_anterior": {
+          "adaptacion": 17,
+          "mitigacion": 32
         }
       }
     },
@@ -299,57 +356,103 @@
       "Exp 4": {
         "adaptacion": {
           "concordancia": 0.45,
+          "concordancia_pm1": 0.95,
+          "sesgo_promedio": 0.4,
           "aciertos": 9,
           "n": 20,
-          "f1_macro": 0.38055555555555554
+          "f1_macro": 0.38055555555555554,
+          "kappa_cuadratica": 0.7459165154264973,
+          "auc_roc_alta": 0.9285714285714286
         },
         "mitigacion": {
           "concordancia": 0.2,
+          "concordancia_pm1": 0.65,
+          "sesgo_promedio": 1.15,
           "aciertos": 4,
           "n": 20,
-          "f1_macro": 0.20833333333333331
+          "f1_macro": 0.20833333333333331,
+          "kappa_cuadratica": 0.40894568690095856,
+          "auc_roc_alta": 0.9375
         }
       },
       "Exp 5": {
         "adaptacion": {
           "concordancia": 0.6,
+          "concordancia_pm1": 1.0,
+          "sesgo_promedio": 0.2,
           "aciertos": 12,
           "n": 20,
-          "f1_macro": 0.5702380952380952
+          "f1_macro": 0.5702380952380952,
+          "kappa_cuadratica": 0.8072289156626506,
+          "auc_roc_alta": 0.9560439560439561
         },
         "mitigacion": {
           "concordancia": 0.2,
+          "concordancia_pm1": 0.8,
+          "sesgo_promedio": 1.0,
           "aciertos": 4,
           "n": 20,
-          "f1_macro": 0.22619047619047616
+          "f1_macro": 0.22619047619047616,
+          "kappa_cuadratica": 0.5035460992907801,
+          "auc_roc_alta": 1.0
         }
       },
       "Exp 6": {
         "adaptacion": {
           "concordancia": 0.65,
+          "concordancia_pm1": 1.0,
+          "sesgo_promedio": 0.25,
           "aciertos": 13,
           "n": 20,
-          "f1_macro": 0.6203379953379953
+          "f1_macro": 0.6203379953379953,
+          "kappa_cuadratica": 0.8267326732673267,
+          "auc_roc_alta": 0.9560439560439561
         },
         "mitigacion": {
           "concordancia": 0.2,
+          "concordancia_pm1": 0.8,
+          "sesgo_promedio": 1.0,
           "aciertos": 4,
           "n": 20,
-          "f1_macro": 0.22619047619047616
+          "f1_macro": 0.22619047619047616,
+          "kappa_cuadratica": 0.5035460992907801,
+          "auc_roc_alta": 1.0
+        }
+      },
+      "Exp 7": {
+        "adaptacion": {
+          "concordancia": 0.8,
+          "concordancia_pm1": 1.0,
+          "sesgo_promedio": 0.0,
+          "aciertos": 16,
+          "n": 20,
+          "f1_macro": 0.765079365079365,
+          "kappa_cuadratica": 0.9164926931106472,
+          "auc_roc_alta": 0.989010989010989
+        },
+        "mitigacion": {
+          "concordancia": 0.95,
+          "concordancia_pm1": 1.0,
+          "sesgo_promedio": -0.05,
+          "aciertos": 19,
+          "n": 20,
+          "f1_macro": 0.9653679653679653,
+          "kappa_cuadratica": 0.9743589743589743,
+          "auc_roc_alta": 1.0
         }
       }
     },
     "niveles_test": {
       "Kenya": {
-        "adaptacion": "Media",
-        "mitigacion": "Media"
+        "adaptacion": "Baja",
+        "mitigacion": "Baja"
       },
       "Bangladesh": {
         "adaptacion": "Baja",
-        "mitigacion": "Alta"
+        "mitigacion": "Media"
       },
       "Burundi": {
-        "adaptacion": "Media",
+        "adaptacion": "Baja",
         "mitigacion": "Baja"
       },
       "Saudi Arabia": {
@@ -357,175 +460,175 @@
         "mitigacion": "Crítica"
       },
       "New Caledonia": {
-        "adaptacion": "Media",
-        "mitigacion": "Media"
+        "adaptacion": "Baja",
+        "mitigacion": "Baja"
       },
       "Mauritius": {
         "adaptacion": "Media",
-        "mitigacion": "Media"
+        "mitigacion": "Baja"
       },
       "Gambia": {
-        "adaptacion": "Media",
+        "adaptacion": "Baja",
         "mitigacion": "Baja"
       },
       "Spain": {
         "adaptacion": "Alta",
-        "mitigacion": "Crítica"
+        "mitigacion": "Alta"
       },
       "Sweden": {
-        "adaptacion": "Alta",
-        "mitigacion": "Alta"
+        "adaptacion": "Crítica",
+        "mitigacion": "Media"
       },
       "Cuba": {
         "adaptacion": "Baja",
-        "mitigacion": "Alta"
+        "mitigacion": "Baja"
       },
       "France": {
         "adaptacion": "Alta",
         "mitigacion": "Alta"
       },
       "Tonga": {
-        "adaptacion": "Media",
+        "adaptacion": "Baja",
         "mitigacion": "Baja"
       },
       "Slovakia": {
         "adaptacion": "Alta",
-        "mitigacion": "Alta"
+        "mitigacion": "Media"
       },
       "Guyana": {
-        "adaptacion": "Alta",
-        "mitigacion": "Media"
+        "adaptacion": "Media",
+        "mitigacion": "Baja"
       },
       "Turkmenistan": {
         "adaptacion": "Alta",
-        "mitigacion": "Alta"
+        "mitigacion": "Media"
       },
       "Taiwan": {
-        "adaptacion": "Media",
-        "mitigacion": "Crítica"
+        "adaptacion": "Baja",
+        "mitigacion": "Alta"
       },
       "Egypt": {
         "adaptacion": "Alta",
-        "mitigacion": "Crítica"
+        "mitigacion": "Alta"
       },
       "Saint Kitts and Nevis": {
-        "adaptacion": "Alta",
+        "adaptacion": "Media",
         "mitigacion": "Baja"
       },
       "Hungary": {
         "adaptacion": "Alta",
-        "mitigacion": "Alta"
+        "mitigacion": "Media"
       },
       "Gabon": {
         "adaptacion": "Media",
-        "mitigacion": "Media"
+        "mitigacion": "Baja"
       },
       "Myanmar": {
         "adaptacion": "Baja",
-        "mitigacion": "Alta"
+        "mitigacion": "Baja"
       },
       "Barbados": {
-        "adaptacion": "Alta",
-        "mitigacion": "Media"
+        "adaptacion": "Media",
+        "mitigacion": "Baja"
       },
       "Qatar": {
         "adaptacion": "Crítica",
-        "mitigacion": "Alta"
+        "mitigacion": "Media"
       },
       "Jordan": {
         "adaptacion": "Crítica",
-        "mitigacion": "Alta"
+        "mitigacion": "Baja"
       },
       "Finland": {
-        "adaptacion": "Alta",
-        "mitigacion": "Alta"
+        "adaptacion": "Crítica",
+        "mitigacion": "Media"
       },
       "Estonia": {
         "adaptacion": "Crítica",
-        "mitigacion": "Alta"
+        "mitigacion": "Baja"
       },
       "India": {
         "adaptacion": "Baja",
         "mitigacion": "Crítica"
       },
       "French Polynesia": {
-        "adaptacion": "Media",
+        "adaptacion": "Baja",
         "mitigacion": "Baja"
       },
       "Namibia": {
-        "adaptacion": "Alta",
-        "mitigacion": "Media"
+        "adaptacion": "Crítica",
+        "mitigacion": "Baja"
       },
       "Nigeria": {
         "adaptacion": "Media",
-        "mitigacion": "Crítica"
+        "mitigacion": "Media"
       },
       "Aruba": {
-        "adaptacion": "Media",
-        "mitigacion": "Media"
+        "adaptacion": "Baja",
+        "mitigacion": "Baja"
       },
       "Belgium": {
         "adaptacion": "Alta",
-        "mitigacion": "Alta"
+        "mitigacion": "Media"
       },
       "Ecuador": {
         "adaptacion": "Baja",
-        "mitigacion": "Alta"
+        "mitigacion": "Media"
       },
       "Guatemala": {
         "adaptacion": "Baja",
-        "mitigacion": "Alta"
+        "mitigacion": "Baja"
       },
       "Russia": {
         "adaptacion": "Alta",
-        "mitigacion": "Alta"
+        "mitigacion": "Crítica"
       },
       "Libya": {
         "adaptacion": "Alta",
-        "mitigacion": "Alta"
+        "mitigacion": "Media"
       },
       "North Macedonia": {
-        "adaptacion": "Crítica",
-        "mitigacion": "Media"
+        "adaptacion": "Alta",
+        "mitigacion": "Baja"
       },
       "Oman": {
         "adaptacion": "Crítica",
-        "mitigacion": "Alta"
+        "mitigacion": "Media"
       },
       "Sint Maarten (Dutch part)": {
-        "adaptacion": "Alta",
+        "adaptacion": "Media",
         "mitigacion": "Baja"
       },
       "Guinea": {
         "adaptacion": "Media",
-        "mitigacion": "Media"
+        "mitigacion": "Baja"
       },
       "Haiti": {
-        "adaptacion": "Media",
-        "mitigacion": "Media"
+        "adaptacion": "Baja",
+        "mitigacion": "Baja"
       }
     }
   },
   "percentiles_train": {
     "I1": {
-      "P20": 0.1503602,
+      "P30": 0.17485979999999998,
       "P50": 0.2182485,
-      "P80": 0.3189212
+      "P85": 0.33515495
     },
     "I3": {
-      "P20": 0.22958340000000002,
+      "P25": 0.238469,
       "P50": 0.31294449999999996,
       "P80": 0.517264
     },
     "I4": {
-      "P20": 0.024608400000000002,
-      "P50": 0.27782799999999996,
-      "P80": 3.4757358000000003
+      "P20": 0.46558213621411393,
+      "P50": 3.811356303003763,
+      "P80": 25.93356658050313
     },
     "I5": {
-      "P20": 0.0020818,
-      "P50": 0.021429999999999998,
-      "P80": 0.26817020000000014
+      "P20": 0.02534834957601899,
+      "P50": 0.3309592965999353,
+      "P80": 1.5121993154419804
     }
   },
   "cuartiles_linea_base": {
@@ -544,50 +647,46 @@
     "llamadas": 402,
     "no_concluyentes": 0,
     "grupo_distinto": 0,
-    "tiempo_ms_promedio": 0.93,
-    "tiempo_ms_p95": 1.02,
-    "tiempo_ms_maximo": 1.13,
+    "tiempo_ms_promedio": 1.18,
+    "tiempo_ms_p95": 1.49,
+    "tiempo_ms_maximo": 1.98,
     "distribucion": {
       "adaptacion": {
-        "Alta": 79,
-        "Media": 71,
-        "Baja": 29,
-        "Crítica": 22
+        "Baja": 63,
+        "Media": 54,
+        "Alta": 50,
+        "Crítica": 34
       },
       "mitigacion": {
-        "Alta": 70,
-        "Media": 55,
-        "Baja": 49,
-        "Crítica": 27
+        "Baja": 128,
+        "Media": 44,
+        "Alta": 15,
+        "Crítica": 14
       }
     },
     "mexico": {
       "adaptacion": {
-        "prediccion": 37.0,
+        "prediccion": 25.6,
         "clase_etiqueta": "Media",
-        "confianza_o_score": 0.967,
-        "tiempo_ms": 1.02,
+        "confianza_o_score": 1.0,
+        "tiempo_ms": 1.54,
         "grupo_kmeans": {
           "id": 1,
           "nombre": "Grandes emisores con calentamiento bajo"
         },
-        "explicacion": "Su prioridad de adaptación es media (37 de 100) porque se calienta 0.22 °C por década (más que el 47 % de los países) y su temperatura varía 0.23 °C de un año a otro (más que el 24 % de los países).",
+        "explicacion": "Su prioridad de adaptación es media (26 de 100) porque se calienta 0.22 °C por década (más que el 47 % de los países) y su temperatura varía 0.23 °C de un año a otro (más que el 24 % de los países) y ha emitido 16.4 Gt de CO₂ en su historia (más que el 93 % de los países).",
         "reglas_activadas": [
           {
-            "regla": "Calentamiento medio Y variabilidad baja o media -> media",
-            "fuerza": 0.967
+            "regla": "Calentamiento bajo o medio Y variabilidad baja o media Y emisiones acumuladas altas -> baja",
+            "fuerza": 1.0
           },
           {
-            "regla": "Calentamiento medio Y emisiones acumuladas altas -> media",
-            "fuerza": 0.967
+            "regla": "Calentamiento medio Y variabilidad baja o media -> media",
+            "fuerza": 0.948
           },
           {
             "regla": "Calentamiento bajo Y variabilidad baja o media -> baja",
-            "fuerza": 0.033
-          },
-          {
-            "regla": "Calentamiento bajo Y emisiones acumuladas altas -> baja",
-            "fuerza": 0.033
+            "fuerza": 0.052
           }
         ],
         "conjunto_agregado": {
@@ -599,42 +698,38 @@
             100.0
           ],
           "mu": [
-            0.0331,
-            0.0331,
-            0.0331,
+            1.0,
+            1.0,
+            1.0,
             "...",
             0.0
           ],
-          "centroide": 37.0
+          "centroide": 25.6
         },
         "estado": "ok"
       },
       "mitigacion": {
-        "prediccion": 82.3,
+        "prediccion": 84.1,
         "clase_etiqueta": "Crítica",
-        "confianza_o_score": 1.0,
-        "tiempo_ms": 0.9,
+        "confianza_o_score": 0.975,
+        "tiempo_ms": 1.24,
         "grupo_kmeans": {
           "id": 1,
           "nombre": "Grandes emisores con calentamiento bajo"
         },
-        "explicacion": "Su prioridad de mitigación es crítica (82 de 100) porque ha emitido 16.4 Gt de CO₂ en su historia (más que el 93 % de los países) y aporta el 1.48 % de las emisiones mundiales (más que el 95 % de los países).",
+        "explicacion": "Su prioridad de mitigación es crítica (84 de 100) porque ha emitido 16.4 Gt de CO₂ en su historia (más que el 93 % de los países) y aporta el 1.48 % de las emisiones mundiales (más que el 95 % de los países).",
         "reglas_activadas": [
           {
-            "regla": "Emisiones acumuladas altas Y participación mundial alta -> crítica",
-            "fuerza": 1.0
+            "regla": "Emisiones acumuladas medias o altas Y participación mundial alta -> crítica",
+            "fuerza": 0.975
           },
           {
-            "regla": "Emisiones acumuladas altas Y crecimiento positivo -> crítica",
-            "fuerza": 0.647
+            "regla": "Emisiones acumuladas medias o altas Y participación mundial baja o media -> media",
+            "fuerza": 0.025
           },
           {
-            "regla": "Participación mundial alta Y crecimiento positivo -> crítica",
-            "fuerza": 0.647
-          },
-          {
-            "regla": "Participación mundial alta Y crecimiento estable -> alta",
-            "fuerza": 0.137
+            "regla": "Emisiones acumuladas altas Y participación mundial media -> alta",
+            "fuerza": 0.025
           }
         ],
         "conjunto_agregado": {
@@ -650,13 +745,13 @@
             0.0,
             0.0,
             "...",
-            1.0
+            0.9753
           ],
-          "centroide": 82.3
+          "centroide": 84.1
         },
         "estado": "ok"
       }
     }
   },
-  "segundos_totales": 14.4
+  "segundos_totales": 26.5
 }

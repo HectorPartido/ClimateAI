@@ -1,4 +1,4 @@
-"""Pruebas de predecir() (PR 4, Gildardo Emmanuel González García).
+"""Pruebas de predecir() y validación de correcciones (PR 4 + Exp 7).
 
 Antes, entrenar:  python src/models/train.py --raw data/raw --output models/
 Correr con:       python -m pytest -q
@@ -9,7 +9,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from src.config import INDICADORES, KMEANS, NIVELES, RANGOS, SISTEMAS
+from src.config import INDICADORES, KMEANS, META_CONCORDANCIA, NIVELES, NIVELES_EXPERTO, RANGOS, SISTEMAS
 from src.models.predict import EJEMPLO_MEXICO, predecir
 
 if not KMEANS.exists() or not INDICADORES.exists():
@@ -46,7 +46,8 @@ def test_mexico_como_en_la_entrega_2():
     ada = predecir(entrada(sistema="adaptacion"))
     assert mit["grupo_kmeans"]["id"] == 1                  # Grandes emisores con calentamiento bajo
     assert mit["clase_etiqueta"] == "Crítica"              # la Entrega 2 esperaba crítica (79.8 con 2 reglas)
-    assert mit["reglas_activadas"][0]["fuerza"] == 1.0
+    # Con P80 ponderado por masa (I5 P80 = 1.512 %), México (1.483 %) activa Crítica con fuerza 0.975 (antes 1.0 por P80=0.268 %)
+    assert mit["reglas_activadas"][0]["fuerza"] >= 0.90
     assert ada["clase_etiqueta"] == "Media"
 
 
@@ -83,12 +84,45 @@ def test_extremos_del_rango(valores, sistema):
     assert s["clase_etiqueta"] in NIVELES
 
 
-@pytest.mark.parametrize("sistema,indicador", [("adaptacion", "I1"), ("mitigacion", "I5"), ("mitigacion", "I6")])
+@pytest.mark.parametrize("sistema,indicador", [
+    ("adaptacion", "I1"), ("adaptacion", "I3"),
+    ("mitigacion", "I4"), ("mitigacion", "I5"), ("mitigacion", "I6"),
+])
 def test_mas_riesgo_no_baja_la_prioridad(sistema, indicador):
     lo, hi = RANGOS[indicador]
     puntajes = [predecir(entrada(sistema=sistema, **{indicador: float(v)}))["prediccion"]
                 for v in np.linspace(lo, hi, 25)]
     assert all(b >= a - 0.5 for a, b in zip(puntajes, puntajes[1:])), puntajes
+
+
+def test_capacidad_historica_no_sube_adaptacion():
+    """En Adaptación, mayor capacidad histórica (I4) nunca debe elevar la urgencia."""
+    lo, hi = RANGOS["I4"]
+    puntajes = [predecir(entrada(sistema="adaptacion", I4=float(v)))["prediccion"]
+                for v in np.geomspace(0.01, hi, 20)]
+    assert all(b <= a + 0.5 for a, b in zip(puntajes, puntajes[1:])), puntajes
+
+
+def test_correccion_emisores_marginales_y_baja_exposicion():
+    """Verifica las dos fallas clave del equipo: Aruba/marginales no deben sobreestimarse."""
+    marginal = {"I1": 0.14, "I2": 0.45, "I3": 0.24, "I4": 0.30, "I5": 0.036, "I6": 39.0}
+    assert predecir({**marginal, "sistema": "adaptacion"})["clase_etiqueta"] == "Baja"
+    assert predecir({**marginal, "sistema": "mitigacion"})["clase_etiqueta"] == "Baja"
+
+
+def test_meta_oe3_concordancia_experto():
+    """El modelo calibrado (Exp 7) supera >= 80 % (16/20) en Adaptación y Mitigación."""
+    exp = pd.read_csv(NIVELES_EXPERTO)
+    m = exp.merge(PAISES, on="pais", how="inner")
+    assert len(m) == 20
+    for sistema in SISTEMAS:
+        y_true = m[f"nivel_{sistema}"].tolist()
+        y_pred = [predecir({**{c: float(r[c]) for c in RANGOS}, "sistema": sistema})["clase_etiqueta"]
+                  for _, r in m.iterrows()]
+        concordancia = sum(a == b for a, b in zip(y_true, y_pred)) / len(y_true)
+        pm1 = sum(abs(NIVELES.index(a) - NIVELES.index(b)) <= 1 for a, b in zip(y_true, y_pred)) / len(y_true)
+        assert concordancia >= META_CONCORDANCIA, f"{sistema}: {concordancia:.0%} < {META_CONCORDANCIA:.0%}"
+        assert pm1 == 1.0
 
 
 def test_misma_entrada_misma_salida():
