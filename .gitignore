@@ -16,3 +16,6 @@ Thumbs.db
 
 # Archivos temporales de Excel
 ~$*
+
+# Reportes de error del tablero (se generan al usarlo)
+data/reportes.csv

@@ -1,0 +1,17 @@
+[theme]
+base = "light"
+primaryColor = "#2563eb"
+textColor = "#1f2937"
+font = "sans serif"
+
+[server]
+headless = true
+maxUploadSize = 10
+# Sirve app/static/ (el mapa del mundo de Plotly), así el mapa no depende de un CDN externo
+enableStaticServing = true
+
+[client]
+toolbarMode = "viewer"
+
+[browser]
+gatherUsageStats = false
