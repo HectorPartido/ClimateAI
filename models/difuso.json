@@ -1,6 +1,59 @@
 {
- "version_reglas": 2,
+ "version_reglas": 3,
  "percentiles_train": {
+  "I1": {
+   "P30": 0.17485979999999998,
+   "P50": 0.2182485,
+   "P85": 0.33515495
+  },
+  "I3": {
+   "P25": 0.238469,
+   "P50": 0.31294449999999996,
+   "P80": 0.517264
+  },
+  "I4": {
+   "P20": 0.46558213621411393,
+   "P50": 3.811356303003763,
+   "P80": 25.93356658050313
+  },
+  "I5": {
+   "P20": 0.02534834957601899,
+   "P50": 0.3309592965999353,
+   "P80": 1.5121993154419804
+  }
+ },
+ "percentiles_por_sistema": {
+  "adaptacion": {
+   "I1": {
+    "P30": 0.17485979999999998,
+    "P50": 0.2182485,
+    "P85": 0.33515495
+   },
+   "I3": {
+    "P25": 0.238469,
+    "P50": 0.31294449999999996,
+    "P80": 0.517264
+   },
+   "I4": {
+    "P20": 0.12500566251603493,
+    "P50": 1.9077890328668161,
+    "P80": 12.316830210532432
+   }
+  },
+  "mitigacion": {
+   "I4": {
+    "P20": 0.46558213621411393,
+    "P50": 3.811356303003763,
+    "P80": 25.93356658050313
+   },
+   "I5": {
+    "P20": 0.02534834957601899,
+    "P50": 0.3309592965999353,
+    "P80": 1.5121993154419804
+   }
+  }
+ },
+ "percentiles_equiponderados_legacy": {
   "I1": {
    "P20": 0.1503602,
    "P50": 0.2182485,
@@ -23,6 +76,21 @@
   }
  },
  "i6_puntos_fijos": {
+  "negativo": [
+   -25,
+   5
+  ],
+  "estable": [
+   -5,
+   25,
+   65
+  ],
+  "positivo": [
+   30,
+   75
+  ]
+ },
+ "i6_puntos_fijos_legacy": {
   "negativo": [
    -40,
    0
@@ -1321,19 +1389,12 @@
    },
    {
     "si": {
-     "I1": "bajo",
-     "I4": "bajo"
-    },
-    "entonces": "Media",
-    "texto": "Calentamiento bajo Y emisiones acumuladas bajas -> media"
-   },
-   {
-    "si": {
      "I1": "medio",
+     "I3": "alto",
      "I4": "bajo"
     },
-    "entonces": "Alta",
-    "texto": "Calentamiento medio Y emisiones acumuladas bajas -> alta"
+    "entonces": "Crítica",
+    "texto": "Calentamiento medio Y variabilidad alta Y emisiones acumuladas bajas -> crítica"
    },
    {
     "si": {
@@ -1345,19 +1406,29 @@
    },
    {
     "si": {
-     "I1": "bajo",
+     "I3": "alto",
+     "I4": "bajo"
+    },
+    "entonces": "Crítica",
+    "texto": "Variabilidad alta Y emisiones acumuladas bajas -> crítica"
+   },
+   {
+    "si": {
+     "I1": "no_alto",
+     "I3": "no_alto",
      "I4": "alto"
     },
     "entonces": "Baja",
-    "texto": "Calentamiento bajo Y emisiones acumuladas altas -> baja"
+    "texto": "Calentamiento bajo o medio Y variabilidad baja o media Y emisiones acumuladas altas -> baja"
    },
    {
     "si": {
      "I1": "medio",
+     "I3": "alto",
      "I4": "alto"
     },
     "entonces": "Media",
-    "texto": "Calentamiento medio Y emisiones acumuladas altas -> media"
+    "texto": "Calentamiento medio Y variabilidad alta Y emisiones acumuladas altas -> media"
    },
    {
     "si": {
@@ -1371,35 +1442,35 @@
   "mitigacion": [
    {
     "si": {
-     "I4": "no_alto",
+     "I4": "bajo",
      "I5": "bajo"
     },
     "entonces": "Baja",
-    "texto": "Emisiones acumuladas bajas o medias Y participación mundial baja -> baja"
+    "texto": "Emisiones acumuladas bajas Y participación mundial baja -> baja"
    },
    {
     "si": {
-     "I4": "no_alto",
+     "I4": "bajo",
      "I5": "medio"
     },
     "entonces": "Media",
-    "texto": "Emisiones acumuladas bajas o medias Y participación mundial media -> media"
+    "texto": "Emisiones acumuladas bajas Y participación mundial media -> media"
    },
    {
     "si": {
-     "I4": "no_alto",
+     "I4": "bajo",
      "I5": "alto"
     },
     "entonces": "Alta",
-    "texto": "Emisiones acumuladas bajas o medias Y participación mundial alta -> alta"
+    "texto": "Emisiones acumuladas bajas Y participación mundial alta -> alta"
    },
    {
     "si": {
-     "I4": "alto",
-     "I5": "bajo"
+     "I4": "no_bajo",
+     "I5": "no_alto"
     },
     "entonces": "Media",
-    "texto": "Emisiones acumuladas altas Y participación mundial baja -> media"
+    "texto": "Emisiones acumuladas medias o altas Y participación mundial baja o media -> media"
    },
    {
     "si": {
@@ -1411,35 +1482,20 @@
    },
    {
     "si": {
-     "I4": "alto",
+     "I4": "no_bajo",
      "I5": "alto"
     },
     "entonces": "Crítica",
-    "texto": "Emisiones acumuladas altas Y participación mundial alta -> crítica"
+    "texto": "Emisiones acumuladas medias o altas Y participación mundial alta -> crítica"
    },
    {
     "si": {
      "I4": "alto",
+     "I5": "no_bajo",
      "I6": "positivo"
     },
     "entonces": "Crítica",
-    "texto": "Emisiones acumuladas altas Y crecimiento positivo -> crítica"
-   },
-   {
-    "si": {
-     "I5": "alto",
-     "I6": "estable"
-    },
-    "entonces": "Alta",
-    "texto": "Participación mundial alta Y crecimiento estable -> alta"
-   },
-   {
-    "si": {
-     "I5": "alto",
-     "I6": "positivo"
-    },
-    "entonces": "Crítica",
-    "texto": "Participación mundial alta Y crecimiento positivo -> crítica"
+    "texto": "Emisiones acumuladas altas Y participación mundial media o alta Y crecimiento positivo -> crítica"
    },
    {
     "si": {
@@ -1451,19 +1507,28 @@
    },
    {
     "si": {
-     "I5": "bajo",
-     "I6": "negativo"
+     "I5": "alto",
+     "I6": "positivo"
     },
-    "entonces": "Baja",
-    "texto": "Participación mundial baja Y crecimiento negativo -> baja"
+    "entonces": "Crítica",
+    "texto": "Participación mundial alta Y crecimiento positivo -> crítica"
    },
    {
     "si": {
-     "I5": "alto",
+     "I5": "no_alto",
+     "I6": "negativo"
+    },
+    "entonces": "Baja",
+    "texto": "Participación mundial baja o media Y crecimiento negativo -> baja"
+   },
+   {
+    "si": {
+     "I4": "no_bajo",
+     "I5": "medio",
      "I6": "negativo"
     },
     "entonces": "Media",
-    "texto": "Participación mundial alta Y crecimiento negativo -> media"
+    "texto": "Emisiones acumuladas medias o altas Y participación mundial media Y crecimiento negativo -> media"
    }
   ]
  },

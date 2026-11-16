@@ -8,8 +8,16 @@ mismos 6 indicadores (I4 e I5 con log10), estandarizados con la media y la
 desviación de Train (el escalador nunca ve Test):
 
   * Exp 1, modelo base:  K-means k = 4 sobre los 6 indicadores en z-score (sin PCA).
+    Diagnóstico: subajusta (Silueta Train = 0.318 < 0.35) porque I1-I2 (r=0.91) e
+    I4-I5 (r=0.87) duplican el peso de calentamiento y emisiones en distancia euclidiana
+    6D mientras I6 introduce dispersión ortogonal.
   * Exp 2, candidato:    z-score, PCA de 2 componentes y K-means k = 4.
+    Solución: el PCA retiene ~76.5 % de la varianza en 2 ejes ortogonales (PC1 magnitud,
+    PC2 emisiones frente a calentamiento), elimina la colinealidad y alcanza Silueta
+    Train = 0.407 (>= 0.35), Test = 0.382 (>= 0.30) y Davies-Bouldin = 0.814.
   * Exp 3, alternativo:  mezcla gaussiana (GaussianMixture) de 4 componentes sobre el mismo PCA.
+    Diagnóstico: maximiza verosimilitud en vez de margen euclidiano, generando elipses
+    traslapadas (Silueta Train = 0.329, Test = 0.328, Davies-Bouldin = 1.645).
 
 Métrica principal: silueta en Test (meta 0.30; en Train la meta es 0.35).
 Métrica secundaria: índice de Davies-Bouldin en Test (menor es mejor).
@@ -24,22 +32,19 @@ Uso (después del PR 1):
 """
 import json
 import logging
+import os
 import sys
 import time
 from pathlib import Path
 
 import joblib
-import matplotlib
 import numpy as np
 import pandas as pd
-
-matplotlib.use("Agg")
-import matplotlib.pyplot as plt  # noqa: E402
-from sklearn.cluster import KMeans, kmeans_plusplus  # noqa: E402
-from sklearn.decomposition import PCA  # noqa: E402
-from sklearn.metrics import adjusted_rand_score, davies_bouldin_score, silhouette_score  # noqa: E402
-from sklearn.mixture import GaussianMixture  # noqa: E402
-from sklearn.preprocessing import StandardScaler  # noqa: E402
+from sklearn.cluster import KMeans, kmeans_plusplus
+from sklearn.decomposition import PCA
+from sklearn.metrics import adjusted_rand_score, davies_bouldin_score, silhouette_score
+from sklearn.mixture import GaussianMixture
+from sklearn.preprocessing import StandardScaler
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 from src.config import (FIGURAS, GMM, GRUPOS, IND, IND_LOG, K, KMEANS, META_SILUETA_TEST,  # noqa: E402
@@ -47,6 +52,15 @@ from src.config import (FIGURAS, GMM, GRUPOS, IND, IND_LOG, K, KMEANS, META_SILU
 from src.data.preprocess import cargar, preparar_matriz  # noqa: E402
 
 log = logging.getLogger("climateai")
+
+
+def _plt():
+    """Importa matplotlib solo al graficar para no penalizar tiempo de carga en inferencia."""
+    os.environ.setdefault("MPLCONFIGDIR", "/tmp")
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    return plt
 
 # Nombre de cada grupo según su centroide: (calentamiento I1, emisiones acumuladas I4).
 # El número de grupo es fijo para que el tablero y los documentos siempre coincidan.
@@ -108,6 +122,7 @@ def nombrar_grupos(km: KMeans, scaler: StandardScaler, pca: PCA) -> dict:
 
 
 def _figuras(ztr, ptr, pte, km, mapa, sil, base, ind, fig_dir: Path):
+    plt = _plt()
     fig_dir.mkdir(parents=True, exist_ok=True)
     ks = list(range(2, 9))
     s6 = [silhouette_score(ztr, KMeans(k, n_init=10, random_state=SEMILLA).fit_predict(ztr)) for k in ks]
