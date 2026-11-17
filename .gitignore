@@ -19,3 +19,7 @@ Thumbs.db
 
 # Reportes de error del tablero (se generan al usarlo)
 data/reportes.csv
+
+# Cobertura de pruebas
+.coverage
+htmlcov/
