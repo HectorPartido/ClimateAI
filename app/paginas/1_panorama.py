@@ -62,7 +62,7 @@ with izq:
     mapa.update_layout(height=360, margin=dict(l=0, r=0, t=0, b=0), legend=dict(orientation="h", y=-0.02),
                        clickmode="event+select")
     evento = st.plotly_chart(mapa, key="g1", on_select="rerun", selection_mode="points",
-                             config={"topojsonURL": "/app/static/"})   # mapa local (app/static/world_110m.json)
+                             config={"topojsonURL": "app/static/"})   # mapa local (app/static/world_110m.json)
     st.caption("En gris, territorios sin datos suficientes. Da clic en un país para abrir su ficha.")
     puntos = evento.selection.points if evento and evento.selection else []
     if puntos:                                             # RF-16: clic en el mapa abre la ficha
