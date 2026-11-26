@@ -105,4 +105,4 @@ p3.button("Siguiente", icon=":material/chevron_right:", icon_position="right", d
           key="rk_sig", on_click=lambda: st.session_state.update(rk_pagina=pagina + 1))
 with p4:                                                          # RF-09: exportar las filas filtradas
     tabla_descarga(tabla.drop(columns=["pais"]).rename(columns={"pais_es": "pais"}),
-                   f"climateai_ranking_{orden}.csv", "Exportar CSV", "rk_csv")
+                   f"climateai_ranking_{orden}.csv", "Exportar Excel", "rk_csv")
