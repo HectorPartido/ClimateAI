@@ -199,7 +199,7 @@ with t_sin:
                 f"{(eq['metodo'] != 'nombre igual').sum()} con la tabla de equivalencias); "
                 f"{len(sin)} no tienen pareja en la fuente de emisiones.")
     st.dataframe(sin.rename(columns={"pais_berkeley": "País (Berkeley Earth)", "motivo": "Motivo"}), hide_index=True)
-    tabla_descarga(sin, "sin_emparejar.csv", "Descargar sin_emparejar.csv", "dm_sin")
+    tabla_descarga(sin, "sin_emparejar.csv", "Descargar países sin emparejar", "dm_sin")
 
 # ---- reportes de error (RF-17)
 with t_rep:
